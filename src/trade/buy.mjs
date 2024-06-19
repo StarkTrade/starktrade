@@ -13,3 +13,64 @@ function getAccount (provider, accountAddress, privateKey) {
 }
 
 
+async function getQuoteData (buyTokenAddress, sellAmount, takerAddress ) {
+    const data = {
+        sellTokenAddress: STRK,
+        buyTokenAddress: buyTokenAddress,
+        sellAmount: sellAmount,
+        takerAddress: takerAddress
+    }
+    try {
+      const response = await api.getQuote(data)
+      return response
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+async function buildMessageTypedData (quoteID, takerAddress, maxGasTokenAmount) {
+    const data = {
+            quoteId: quoteID,
+            takerAddress: takerAddress,
+            slippage: 0.05,
+            includeApprove: true,
+            gasTokenAddress: STRK,
+            maxGasTokenAmount: maxGasTokenAmount
+        }
+    try {
+        const response = await api.buildTypedData(data)
+        return response
+      } catch (err) {
+        console.error(err);
+      }
+}
+
+async function getSignature (provider, accountAddress, privateKey,typedDataValidate) {
+    let account = getAccount(provider, accountAddress, privateKey);
+    const signature = (await account.signMessage(typedDataValidate))
+    return signature
+
+}
+
+
+async function executeBuy (privateKey, buyTokenAddress, sellAmount, takerAddress, maxGasTokenAmount) {
+    let quoteID = await getQuoteData(buyTokenAddress, sellAmount, takerAddress).quoteId;
+
+    let typedData = await buildMessageTypedData(quoteID, takerAddress, maxGasTokenAmount)
+
+    let sig = await getSignature(process.env.RPC_URL_TESTNET, takerAddress, privateKey, typedData)
+
+    let data = {
+        quoteId : quoteID,
+        signature: [sig]
+    }
+
+    try {
+        const response = await api.executeSwap(data)
+        return response
+    } catch (err) {
+        console.error(err);
+    }
+    
+}

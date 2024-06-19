@@ -1,4 +1,4 @@
-import api from "../services/api.mjs";
+import {api} from "../services/api.mjs";
 import {STRK} from "../utils/constants.mjs"
 
 
@@ -44,6 +44,7 @@ async function buildMessageTypedData (quoteID, takerAddress, maxGasTokenAmount) 
 async function getSignature (provider, accountAddress, privateKey,typedDataValidate) {
     let account = getAccount(provider, accountAddress, privateKey);
     const signature = await account.signMessage(typedDataValidate)
+    console.log("signature", signature)
     return signature
 
 }
@@ -58,7 +59,7 @@ async function execute (privateKey, sellTokenAddress, buyTokenAddress, sellAmoun
 
     let data = {
         quoteId : quoteID,
-        signature: [sig]
+        signature: sig
     }
 
     try {
@@ -73,12 +74,13 @@ async function execute (privateKey, sellTokenAddress, buyTokenAddress, sellAmoun
 async function getSupportedTokens () {
    try {
     let response = await api.getSupportedTokens()
-    return response
+    return response.data.content
    } catch (err) {
     console.error(err)
    }
 
 }
+
 
 
 export {

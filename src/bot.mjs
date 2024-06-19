@@ -1,6 +1,7 @@
 import {Bot, Keyboard} from "grammy";
-import { homeOptions, sellOptions, walletOptions, settingOptions } from './utils/inlineButtons.mjs';
+import { homeOptions, walletOptions, settingOptions } from './utils/inlineButtons.mjs';
 import { buyOptions } from "./trade/buy.mjs";
+import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
@@ -34,7 +35,7 @@ bot.command("home", async (ctx) => {
 });
 
 bot.callbackQuery("buy", async (ctx) => {
-    await ctx.reply("Buy Token:", { reply_markup: buyOptions });
+    await ctx.reply("Buy Token:", { reply_markup: "Enter Contract Address of token to Buy" });
 });
 
 bot.callbackQuery("sell", async (ctx) => {

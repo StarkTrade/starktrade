@@ -1,5 +1,6 @@
 import {Bot, Keyboard} from "grammy";
-import { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } from './utils/inlineButtons.mjs';
+import { homeOptions, sellOptions, walletOptions, settingOptions } from './utils/inlineButtons.mjs';
+import { buyOptions } from "./trade/buy.mjs";
 import { botCommands } from './utils/commands.mjs';
 
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")

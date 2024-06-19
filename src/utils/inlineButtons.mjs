@@ -7,10 +7,6 @@ const homeOptions = new InlineKeyboard()
   .text("Settings", "settings").row()
   .text("Refresh", "refresh");
 
-const buyOptions = new InlineKeyboard()
-  .text("Buy 100 STRK", "buy_100")
-  .text("Buy 500 STRK", "buy_500").row()
-  .text("Buy X STRK", "buy_x");
 
 const sellOptions = new InlineKeyboard()
   .text("Sell 25%", "sell_25")
@@ -32,7 +28,6 @@ const settingOptions = new InlineKeyboard()
 
 export {
     homeOptions,
-    buyOptions,
     sellOptions,
     walletOptions,
     settingOptions,

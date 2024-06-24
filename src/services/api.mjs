@@ -16,6 +16,10 @@ export const api = {
         return await http.post(`swap/v2/execute`, data)
     },
 
+    getTokenPrice: async (data) => {
+        return await http.get(`/swap/v2/prices?sellTokenAddress=${data.sellTokenAddress}&buyTokenAddress=${data.buyTokenAddress}&sellAmount=${data.sellAmount}`)
+    }
+
 
 
     

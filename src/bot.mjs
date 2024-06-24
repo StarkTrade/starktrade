@@ -5,6 +5,7 @@ import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getSupportedTokens } from "./trade/helper.mjs";
 import { VALIDATE } from "./utils/constants.mjs";
+import "dotenv";
 
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
 
@@ -17,8 +18,8 @@ export const {
     
 } = process.env;
 
-// Default grammY bot instance
-export const bot = new Bot(TELEGRAM_BOT_TOKEN);
+// Default grammY bot instances
+export const bot = new Bot(token);
 
 
 
@@ -65,7 +66,7 @@ bot.on("message:text", async (ctx) => {
 
     let address = ctx.message.text
 
-    if (address.startsWith('0x') && address.length === 64) {
+    if (address.startsWith('0x') && (address.length === 64 || address.length === 62)) {
         const tokens = await getSupportedTokens()
 
 
@@ -73,25 +74,27 @@ bot.on("message:text", async (ctx) => {
         let tokenSymbol;
         let tokenDecimal;
         let tokenAddress;
+        let tokenCondition;
 
-        const token = tokens.map(token => {
-            if (token.address === ctx.message.text) {
-                tokenName = token.name
-                tokenSymbol = token.symbol
-                tokenDecimal = token.decimals
-                tokenAddress = token.address
-                return true
+        for(let i = 0; i < tokens.length; i++) {
+            if (tokens[i].address === ctx.message.text) {
+                tokenName = tokens[i].name
+                tokenSymbol = tokens[i].symbol
+                tokenDecimal = tokens[i].decimals
+                tokenAddress = tokens[i].address
+                tokenCondition = true
+                break;
             } else {
-                return false
+                tokenCondition = false
             }
-        })
+        }
 
-        if (token) {
-            await ctx.reply(`${tokenSymbol} | ${tokenName} | \n${tokenAddress} 
-            \nPrice: $0.01
-            \nMarket: $15 million 
+        console.log("tokenCondition", tokenCondition)
 
-            \nWallet Balance: 0. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions });
+        if (tokenCondition) {
+            await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://etherscan.io/address/${tokenAddress})  
+            \n*Price: $0.01*\n*Market: $15 million*
+            \nWallet Balance: *0*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions , parse_mode: 'Markdown',  disable_web_page_preview: true });
         } else {
             await ctx.reply(`Token not found. Make sure address ${ctx.message.text} is correct. \nYou can enter a ticker or contract address, or check starkScan. If you are trying to enter a buy or sell amount, ensure you click and reply to the message`, { reply_markup: homeOptions });
         }

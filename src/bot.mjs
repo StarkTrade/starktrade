@@ -18,7 +18,7 @@ export const {
 } = process.env;
 
 // Default grammY bot instance
-export const bot = new Bot(token);
+export const bot = new Bot(TELEGRAM_BOT_TOKEN);
 
 
 
@@ -70,9 +70,16 @@ bot.on("message:text", async (ctx) => {
 
 
         let tokenName;
+        let tokenSymbol;
+        let tokenDecimal;
+        let tokenAddress;
+
         const token = tokens.map(token => {
             if (token.address === ctx.message.text) {
                 tokenName = token.name
+                tokenSymbol = token.symbol
+                tokenDecimal = token.decimals
+                tokenAddress = token.address
                 return true
             } else {
                 return false
@@ -80,9 +87,13 @@ bot.on("message:text", async (ctx) => {
         })
 
         if (token) {
-            await ctx.reply(`Buy Token: ${tokenName}`, { reply_markup: buyOptions });
+            await ctx.reply(`${tokenSymbol} | ${tokenName} | \n${tokenAddress} 
+            \nPrice: $0.01
+            \nMarket: $15 million 
+
+            \nWallet Balance: 0. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions });
         } else {
-            await ctx.reply("Unsupported Token Address")
+            await ctx.reply(`Token not found. Make sure address ${ctx.message.text} is correct. \nYou can enter a ticker or contract address, or check starkScan. If you are trying to enter a buy or sell amount, ensure you click and reply to the message`, { reply_markup: homeOptions });
         }
 
     } else {

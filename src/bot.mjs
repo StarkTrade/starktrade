@@ -3,11 +3,15 @@ import { homeOptions, walletOptions, settingOptions } from './utils/inlineButton
 import { buyOptions } from "./trade/buy.mjs";
 import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
-import { getSupportedTokens, getAllTokenDetails } from "./trade/helper.mjs";
+import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount } from "./services/storage.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 export const {
     // Telegram bot token from t.me/BotFather

@@ -110,6 +110,5 @@ async function getAllTokenDetails (tokenAddress) {
 export {
     execute,
     getAccount,
-    getSupportedTokens,
     getAllTokenDetails
 }

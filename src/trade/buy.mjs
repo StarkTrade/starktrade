@@ -1,10 +1,4 @@
-import {bot} from "../bot.mjs"
-import { VALIDATE } from "../utils/constants.mjs";
 import {InlineKeyboard} from "grammy";
-import {getSupportedTokens, getAllTokenDetails} from "../trade/helper.mjs"
-
-
-
 
 export const buyOptions = new InlineKeyboard()
   .text("Buy with 100 STRK", "buy_100")

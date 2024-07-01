@@ -7,13 +7,14 @@
     "env": "vercel env pull .env",
     "build": "node scripts/build.mjs",
     "start:dev": "vercel dev --listen 3000",
-    "start:local": "node --watch scripts/start.mjs",
+    "start:local": "node --watch --env-file=.env scripts/start.mjs",
     "start:tunnel": "npx -y cloudflared tunnel --url http://localhost:3000",
     "start:webhook": "npm run start:tunnel & npm run start:dev",
     "start:polling": "npm run env && npm run start:local"
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "grammy": "^1.21.1",
     "starknet": "^5.24.3",

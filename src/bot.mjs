@@ -130,7 +130,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     const tokenData = await getAllTokenDetails(input);
 
     if (walletRequested) {
-        ctx.session.secretKey = input
+        ctx.session.secretKey = encrypt(input, token)
         ctx.session.accountAddress = generateAccount(input)
         ctx.session.walletRequested = false
 
@@ -173,44 +173,4 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
 
 console.log(generateAccount(String("0x0123")), "address")
-
-
-// bot.on("message:text", async (ctx) => {
-
-//     let address = ctx.message.text
-
-//     if (address.startsWith('0x') && (address.length === 64 || address.length === 66)) {
-//         const tokenData = await getAllTokenDetails(address);
-
-//         console.log("tokenData", tokenData)
-
-//         if (tokenData ) {
-
-//             console.log(tokenData, "tokenData")
-//             const  {
-//                 tokenName,
-//                 tokenSymbol,
-//                 tokenAddress,
-//                 tokenPrice,
-//                 tokenPriceChange: { m5, h1, h6, h24 },
-//                 liquidity,
-//                 fdv,
-//                 websites,
-//                 viewChart
-//             } = tokenData;
-         
-//             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
-//             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}* 
-//             \n[Website](${websites})   \n[View Chart](${viewChart})
-//             \nWallet Balance: *0*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions , parse_mode: 'Markdown',  disable_web_page_preview: true });
-//         }else {
-//             await ctx.reply(`Token not found. Make sure address ${ctx.message.text} is correct. \nYou can enter a ticker or contract address, or check starkScan. If you are trying to enter a buy or sell amount, ensure you click and reply to the message`, { reply_markup: homeOptions });
-//         }
-
-//     } else {
-//         await ctx.reply("I do not understand your input text please go back to /home")
-//     }
-     
-// })
-
 

@@ -1,5 +1,9 @@
 import {api} from "../services/api.mjs";
 import {STRK} from "../utils/constants.mjs"
+import { Account } from "starknet";
+import { Router as FibrousRouter } from "fibrous-router-sdk";
+
+const fibrous = new FibrousRouter();
 
 
 function getAccount (provider, accountAddress, privateKey) {
@@ -7,69 +11,6 @@ function getAccount (provider, accountAddress, privateKey) {
     return account
 }
 
-
-async function getQuoteData (sellTokenAddress, buyTokenAddress, sellAmount, takerAddress ) {
-    const data = {
-        sellTokenAddress: sellTokenAddress,
-        buyTokenAddress: buyTokenAddress,
-        sellAmount: sellAmount,
-        takerAddress: takerAddress
-    }
-    try {
-      const response = await api.getQuote(data)
-      return response
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-
-async function buildMessageTypedData (quoteID, takerAddress, maxGasTokenAmount) {
-    const data = {
-            quoteId: quoteID,
-            takerAddress: takerAddress,
-            slippage: 0.05,
-            includeApprove: true,
-            gasTokenAddress: STRK,
-            maxGasTokenAmount: maxGasTokenAmount
-        }
-    try {
-        const response = await api.buildTypedData(data)
-        return response
-      } catch (err) {
-        console.error(err);
-      }
-}
-
-async function getSignature (provider, accountAddress, privateKey,typedDataValidate) {
-    let account = getAccount(provider, accountAddress, privateKey);
-    const signature = await account.signMessage(typedDataValidate)
-    console.log("signature", signature)
-    return signature
-
-}
-
-
-async function execute (privateKey, sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, maxGasTokenAmount) {
-    let quoteID = await getQuoteData(sellTokenAddress, buyTokenAddress, sellAmount, takerAddress).quoteId;
-
-    let typedData = await buildMessageTypedData(quoteID, takerAddress, maxGasTokenAmount)
-
-    let sig = await getSignature(process.env.RPC_URL_TESTNET, takerAddress, privateKey, typedData)
-
-    let data = {
-        quoteId : quoteID,
-        signature: sig
-    }
-
-    try {
-        const response = await api.executeSwap(data)
-        return response
-    } catch (err) {
-        console.error(err);
-    }
-    
-}
 
 async function getAllTokenDetails (tokenAddress) {
     try {
@@ -80,6 +21,7 @@ async function getAllTokenDetails (tokenAddress) {
             if (data?.pairs?.length > 0) {
         
                 let res = data.pairs[0]
+                console.log("First pair", res)
                 return {
                     tokenName: res.baseToken.name,
                     tokenSymbol: res.baseToken.symbol,
@@ -92,7 +34,7 @@ async function getAllTokenDetails (tokenAddress) {
                         h24: res.priceChange.h24},
                     liquidity: res.liquidity.usd ,
                     fdv: res.fdv,
-                    websites: res.info.websites[0].url,
+                    websites: res.hasOwnProperty("websites") ? res.info.websites[0].url : "https://starkscan.co/token/" + tokenAddress, 
                     viewChart: res.url,
                     status: true,
                 }
@@ -108,7 +50,6 @@ async function getAllTokenDetails (tokenAddress) {
 
 
 export {
-    execute,
     getAccount,
     getAllTokenDetails
 }

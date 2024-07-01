@@ -1,20 +1,15 @@
 import {api} from "../services/api.mjs";
 import {STRK} from "../utils/constants.mjs"
+import { Account } from "starknet";
 import { Router as FibrousRouter } from "fibrous-router-sdk";
 
 const fibrous = new FibrousRouter();
-
-const tokens = await fibrous.supportedTokens();
-
-console.log(" fibrous tokens", tokens)
 
 
 function getAccount (provider, accountAddress, privateKey) {
     const account = new Account(provider, accountAddress, privateKey);
     return account
 }
-
-
 
 
 async function getAllTokenDetails (tokenAddress) {
@@ -26,6 +21,7 @@ async function getAllTokenDetails (tokenAddress) {
             if (data?.pairs?.length > 0) {
         
                 let res = data.pairs[0]
+                console.log("First pair", res)
                 return {
                     tokenName: res.baseToken.name,
                     tokenSymbol: res.baseToken.symbol,
@@ -38,7 +34,7 @@ async function getAllTokenDetails (tokenAddress) {
                         h24: res.priceChange.h24},
                     liquidity: res.liquidity.usd ,
                     fdv: res.fdv,
-                    websites: res.info.websites[0].url,
+                    websites: res.hasOwnProperty("websites") ? res.info.websites[0].url : "https://starkscan.co/token/" + tokenAddress, 
                     viewChart: res.url,
                     status: true,
                 }

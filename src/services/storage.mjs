@@ -7,7 +7,9 @@ export const StarkTradeStorage = () => {
         secretKey: null,
         accountAddress: null,
         balance: 0,
-        walletRequested: false
+        walletRequested: false,
+        slippage: 0.01,
+        tokenOutAddress: null
     }
 }
 

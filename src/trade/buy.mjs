@@ -1,4 +1,6 @@
 import {InlineKeyboard} from "grammy";
+import { Account, RpcProvider } from "starknet";
+import { STRK } from "../utils/constants.mjs";
 
 export const buyOptions = new InlineKeyboard()
   .text("Buy with 100 STRK", "buy_100")
@@ -7,18 +9,26 @@ export const buyOptions = new InlineKeyboard()
 
 
 
+export async function executeBuy (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
 
+  const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_TESTNET }); 
 
+  const account = new Account(provider, accountAddress, privateKey);
 
+  const approveCall = await fibrous.buildApprove(
+    inputAmount,
+    STRK,
+  );
 
+  const swapCall = await fibrous.buildTransaction(
+    inputAmount,
+    STRK,
+    tokenOutAddress,
+    slippage,
+    accountAddress,
+  );
 
-//   export async function tokensData() {
-
-//     let tokens = await getAllTokenDetails("0x01e0eee22c684fdf32babdd65e6bcca62a8ce2c23c8d5e68f3989595d26e1b4a")
-    
-//     console.log("tokens Data", tokens)
-// }
-
-// tokensData()
+  await account.execute([approveCall, swapCall])
+}
 
 

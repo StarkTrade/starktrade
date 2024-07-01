@@ -4,7 +4,7 @@ import { buyOptions } from "./trade/buy.mjs";
 import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
-import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount } from "./services/storage.mjs";
+import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount, encrypt, decrypt } from "./services/storage.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
@@ -141,13 +141,16 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
         await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
             \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
             \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
+                reply_markup: homeOptions,
                 parse_mode: 'Markdown',
                 disable_web_page_preview: true
             });
     } else {
-        console.log("tokenData", tokenData)
-
+        // console.log("tokenData", tokenData)
         if (tokenData ) {
+            ctx.session.tokenOutAddress = tokenData?.tokenAddress
+    
+            console.log("Our stored address :", ctx.session.tokenOutAddress)
 
             console.log(tokenData, "tokenData")
             const  {

@@ -16,11 +16,11 @@ export const sessionkey = (ctx) => {
 }
 
 
-export const encrypt = (text) => {
+export const encrypt = (text, token) => {
     return CryptoJS.AES.encrypt(text, token).toString();
 }
 
-export const decrypt = (text) => {
+export const decrypt = (text, token) => {
     return CryptoJS.AES.decrypt(text, token).toString(CryptoJS.enc.Utf8);
 }
 

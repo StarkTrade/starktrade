@@ -3,11 +3,15 @@ import { homeOptions, walletOptions, settingOptions } from './utils/inlineButton
 import { buyOptions } from "./trade/buy.mjs";
 import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
-import { getSupportedTokens, getAllTokenDetails } from "./trade/helper.mjs";
+import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount } from "./services/storage.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
 // const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 export const {
     // Telegram bot token from t.me/BotFather
@@ -130,7 +134,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     const tokenData = await getAllTokenDetails(input);
 
     if (walletRequested) {
-        ctx.session.secretKey = input
+        ctx.session.secretKey = encrypt(input, token)
         ctx.session.accountAddress = generateAccount(input)
         ctx.session.walletRequested = false
 
@@ -173,44 +177,4 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
 
 console.log(generateAccount(String("0x0123")), "address")
-
-
-// bot.on("message:text", async (ctx) => {
-
-//     let address = ctx.message.text
-
-//     if (address.startsWith('0x') && (address.length === 64 || address.length === 66)) {
-//         const tokenData = await getAllTokenDetails(address);
-
-//         console.log("tokenData", tokenData)
-
-//         if (tokenData ) {
-
-//             console.log(tokenData, "tokenData")
-//             const  {
-//                 tokenName,
-//                 tokenSymbol,
-//                 tokenAddress,
-//                 tokenPrice,
-//                 tokenPriceChange: { m5, h1, h6, h24 },
-//                 liquidity,
-//                 fdv,
-//                 websites,
-//                 viewChart
-//             } = tokenData;
-         
-//             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
-//             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}* 
-//             \n[Website](${websites})   \n[View Chart](${viewChart})
-//             \nWallet Balance: *0*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions , parse_mode: 'Markdown',  disable_web_page_preview: true });
-//         }else {
-//             await ctx.reply(`Token not found. Make sure address ${ctx.message.text} is correct. \nYou can enter a ticker or contract address, or check starkScan. If you are trying to enter a buy or sell amount, ensure you click and reply to the message`, { reply_markup: homeOptions });
-//         }
-
-//     } else {
-//         await ctx.reply("I do not understand your input text please go back to /home")
-//     }
-     
-// })
-
 

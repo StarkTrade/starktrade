@@ -71,16 +71,6 @@ async function execute (privateKey, sellTokenAddress, buyTokenAddress, sellAmoun
     
 }
 
-async function getSupportedTokens () {
-   try {
-    let response = await api.getSupportedTokens()
-    return response.data.content
-   } catch (err) {
-    console.error(err)
-   }
-
-}
-
 async function getAllTokenDetails (tokenAddress) {
     try {
     
@@ -110,20 +100,15 @@ async function getAllTokenDetails (tokenAddress) {
                 return false
             }
         }
-        // console.log(data.pairs.length, "data")
-        // console.log(response, "response")
-
       
     } catch (err) {
         console.error(err)
     }
 }
 
-// token name token symbol token address token price price change (m5, h1, h6, h24) liquidity fdv/mc websites view chart
 
 export {
     execute,
     getAccount,
-    getSupportedTokens,
     getAllTokenDetails
 }

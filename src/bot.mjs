@@ -5,7 +5,7 @@ import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./services/storage.mjs";
-import { getAccountFromPrivateKey } from "./services/wallet.mjs";
+import { getAccountFromPrivateKey, createArgentAccount } from "./services/wallet.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
 
@@ -109,7 +109,9 @@ bot.callbackQuery("settings", async (ctx) => {
 });
 
 bot.callbackQuery("create_wallet", async (ctx) => {
-    await ctx.reply(`Your Starknet Wallet Address is [0x024de3eddbb15440e52b7f1d78ae69c3f429b7f9f71d0671a12de613f59398dd](https://starkscan.co/contract/0x024de3eddbb15440e52b7f1d78ae69c3f429b7f9f71d0671a12de613f59398dd)`,
+    await ctx.reply(`Your Starknet Wallet Address is [${createArgentAccount().account}](https://starkscan.co/contract/${createArgentAccount().account}).
+    \nPrivate Key: ${createArgentAccount().privateKey}
+    \nCopy your Private Key and keep it safe.`,
         {
             parse_mode: 'Markdown',
             disable_web_page_preview: true
@@ -179,4 +181,6 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 });
 
 
-console.log(getAccountFromPrivateKey(String("0x0123")), "address")
+// console.log(getAccountFromPrivateKey(String("0x0123")), "address")
+
+console.log(createArgentAccount().privateKey);

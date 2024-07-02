@@ -4,10 +4,10 @@ import { buyOptions } from "./trade/buy.mjs";
 import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
-import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount, encrypt, decrypt } from "./services/storage.mjs";
+import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./services/storage.mjs";
+import { getAccountFromPrivateKey } from "./services/wallet.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
-// const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -135,7 +135,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
     if (walletRequested) {
         ctx.session.secretKey = encrypt(input, token)
-        ctx.session.accountAddress = generateAccount(input)
+        ctx.session.accountAddress = getAccountFromPrivateKey(input)
         ctx.session.walletRequested = false
 
         await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
@@ -179,5 +179,4 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 });
 
 
-console.log(generateAccount(String("0x0123")), "address")
-
+console.log(getAccountFromPrivateKey(String("0x0123")), "address")

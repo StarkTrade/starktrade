@@ -4,10 +4,10 @@ import { buyOptions } from "./trade/buy.mjs";
 import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
-import { StarkTradeStorage, sessionkey, sessionChecker, generateAccount, encrypt, decrypt } from "./services/storage.mjs";
+import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./services/storage.mjs";
+import { getAccountFromPrivateKey, createArgentAccount } from "./services/wallet.mjs";
 import { CallData, ec, hash, stark } from "starknet";
 import { argentAccountClassHash } from "./utils/constants.mjs";
-// const { homeOptions, buyOptions, sellOptions, walletOptions, settingOptions } = require("./utils/inlineButtons")
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -109,12 +109,18 @@ bot.callbackQuery("settings", async (ctx) => {
 });
 
 bot.callbackQuery("create_wallet", async (ctx) => {
-    await ctx.reply(`Your Starknet Wallet Address is [0x024de3eddbb15440e52b7f1d78ae69c3f429b7f9f71d0671a12de613f59398dd](https://starkscan.co/contract/0x024de3eddbb15440e52b7f1d78ae69c3f429b7f9f71d0671a12de613f59398dd)`,
-        {
+    ctx.session.secretKey = encrypt(createArgentAccount().privateKey, token)
+    ctx.session.accountAddress = createArgentAccount().account
+    ctx.session.walletRequested = false
+
+    await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
+        \nPrivate Key: ${decrypt(ctx.session.secretKey, token)}
+        \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
+        \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
+            reply_markup: homeOptions,
             parse_mode: 'Markdown',
             disable_web_page_preview: true
-        }
-    );
+        });
 })
 
 bot.callbackQuery("import_wallet", async (ctx) => {
@@ -135,7 +141,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
     if (walletRequested) {
         ctx.session.secretKey = encrypt(input, token)
-        ctx.session.accountAddress = generateAccount(input)
+        ctx.session.accountAddress = getAccountFromPrivateKey(input)
         ctx.session.walletRequested = false
 
         await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
@@ -179,5 +185,6 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 });
 
 
-console.log(generateAccount(String("0x0123")), "address")
+// console.log(getAccountFromPrivateKey(String("0x0123")), "address")
 
+console.log(createArgentAccount());

@@ -109,14 +109,18 @@ bot.callbackQuery("settings", async (ctx) => {
 });
 
 bot.callbackQuery("create_wallet", async (ctx) => {
-    await ctx.reply(`Your Starknet Wallet Address is [${createArgentAccount().account}](https://starkscan.co/contract/${createArgentAccount().account}).
-    \nPrivate Key: ${createArgentAccount().privateKey}
-    \nCopy your Private Key and keep it safe.`,
-        {
+    ctx.session.secretKey = encrypt(createArgentAccount().privateKey, token)
+    ctx.session.accountAddress = createArgentAccount().account
+    ctx.session.walletRequested = false
+
+    await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
+        \nPrivate Key: ${createArgentAccount().privateKey}
+        \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
+        \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
+            reply_markup: homeOptions,
             parse_mode: 'Markdown',
             disable_web_page_preview: true
-        }
-    );
+        });
 })
 
 bot.callbackQuery("import_wallet", async (ctx) => {

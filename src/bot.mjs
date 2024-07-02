@@ -114,7 +114,7 @@ bot.callbackQuery("create_wallet", async (ctx) => {
     ctx.session.walletRequested = false
 
     await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).
-        \nPrivate Key: ${createArgentAccount().privateKey}
+        \nPrivate Key: ${decrypt(ctx.session.secretKey, token)}
         \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
         \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
             reply_markup: homeOptions,
@@ -187,4 +187,4 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
 // console.log(getAccountFromPrivateKey(String("0x0123")), "address")
 
-console.log(createArgentAccount().privateKey);
+console.log(createArgentAccount());

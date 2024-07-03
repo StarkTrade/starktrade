@@ -1,4 +1,4 @@
-import {api} from "../services/api.mjs";
+import { dexScreenerService } from "../services/dexscreener/index.mjs";
 import {STRK} from "../utils/constants.mjs"
 import { Account } from "starknet";
 import { Router as FibrousRouter } from "fibrous-router-sdk";
@@ -15,7 +15,7 @@ function getAccount (provider, accountAddress, privateKey) {
 async function getAllTokenDetails (tokenAddress) {
     try {
     
-        let {data} = await api.getTokenDetails(tokenAddress)
+        let {data} = await dexScreenerService.getTokenDetails(tokenAddress)
         if (data) {
             console.log(data, "length")
             if (data?.pairs?.length > 0) {

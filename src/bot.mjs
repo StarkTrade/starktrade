@@ -110,7 +110,7 @@ bot.callbackQuery("settings", async (ctx) => {
 
 bot.callbackQuery("create_wallet", async (ctx) => {
     ctx.session.secretKey = encrypt(createArgentAccount().privateKey, token)
-    ctx.session.accountAddress = createArgentAccount().account
+    ctx.session.accountAddress = getAccountFromPrivateKey(decrypt(ctx.session.secretKey, token))
     ctx.session.walletRequested = false
 
     await ctx.reply(`Your Starknet Wallet Address is [${ctx.session.accountAddress}](https://starkscan.co/contract/${ctx.session.accountAddress}).

@@ -1,11 +1,8 @@
 import {InlineKeyboard} from "grammy";
-import { Account, RpcProvider, Provider, constants } from "starknet";
-import { STRK } from "../utils/constants.mjs";
-import { Router as FibrousRouter } from "fibrous-router-sdk";
 import { BigNumber } from "@ethersproject/bignumber";
 import { parseUnits } from "ethers";
+import { buyWithFibrous } from "../services/fibrous/index.mjs";
 
-const fibrous = new FibrousRouter();
 
 export const buyOptions = new InlineKeyboard()
   .text("Buy with 100 STRK", "buy_100")
@@ -15,31 +12,7 @@ export const buyOptions = new InlineKeyboard()
 
 
 export async function executeBuy (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
-
-  const provider = new RpcProvider({ nodeUrl: 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7' });
-
-  console.log(provider, "provider")
-
-  const account = new Account(provider, accountAddress, privateKey, "1");
-
-  const approveCall = await fibrous.buildApprove(
-    inputAmount,
-    STRK,
-  );
-
-  console.log("approveCall", approveCall);
-
-  const swapCall = await fibrous.buildTransaction(
-    inputAmount,
-    STRK,
-    tokenOutAddress,
-    slippage,
-    accountAddress,
-  );
-
-  console.log("swapCall", swapCall);
-
-  await account.execute([approveCall, swapCall])
+  buyWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenOutAddress);
 }
 
 

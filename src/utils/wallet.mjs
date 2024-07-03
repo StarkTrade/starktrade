@@ -1,5 +1,5 @@
 import {ec, stark, hash, CallData } from "starknet"
-import { argentAccountClassHash } from "../utils/constants.mjs";
+import { argentAccountClassHash } from "./constants.mjs";
 
 export const getAccountFromPrivateKey = (privateKey) => {
     const starkPublicKey = ec.starkCurve.getStarkKey(privateKey);

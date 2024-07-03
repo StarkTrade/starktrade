@@ -6,8 +6,6 @@ import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./services/storage.mjs";
 import { getAccountFromPrivateKey, createArgentAccount } from "./services/wallet.mjs";
-import { CallData, ec, hash, stark } from "starknet";
-import { argentAccountClassHash } from "./utils/constants.mjs";
 
 import dotenv from 'dotenv';
 dotenv.config();

@@ -1,4 +1,4 @@
-import {Account, ec, json, stark, RpcProvider, hash, CallData } from "starknet"
+import {ec, stark, hash, CallData } from "starknet"
 import { argentAccountClassHash } from "../utils/constants.mjs";
 
 export const getAccountFromPrivateKey = (privateKey) => {
@@ -24,8 +24,8 @@ export const createArgentAccount = () => {
     const starkKeyPubAX = ec.starkCurve.getStarkKey(privateKeyAX);
 
     const AXConstructorCallData = CallData.compile({
-    owner: starkKeyPubAX,
-    guardian: '0',
+        owner: starkKeyPubAX,
+        guardian: '0',
     });
 
     const AXcontractAddress = hash.calculateContractAddressFromHash(

@@ -1,9 +1,5 @@
 import { dexScreenerService } from "../services/dexscreener/index.mjs";
-import {STRK} from "../utils/constants.mjs"
 import { Account } from "starknet";
-import { Router as FibrousRouter } from "fibrous-router-sdk";
-
-const fibrous = new FibrousRouter();
 
 
 function getAccount (provider, accountAddress, privateKey) {

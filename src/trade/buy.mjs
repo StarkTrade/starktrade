@@ -4,6 +4,7 @@ import { parseUnits } from "ethers";
 import { buyWithFibrous } from "../services/fibrous/index.mjs";
 
 
+
 export const buyOptions = new InlineKeyboard()
   .text("Buy with 100 STRK", "buy_100")
   .text("Buy with 500 STRK", "buy_500").row()
@@ -30,6 +31,6 @@ async function testBuy() {
   }
 }
 
-testBuy()
+// testBuy()
 
 

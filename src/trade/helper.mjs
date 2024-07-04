@@ -1,3 +1,4 @@
+import { blastService } from "../services/blast/index.mjs";
 import { dexScreenerService } from "../services/dexscreener/index.mjs";
 import { Account } from "starknet";
 
@@ -44,8 +45,44 @@ async function getAllTokenDetails (tokenAddress) {
     }
 }
 
+async function getUserTokenBalance(userAddress, tokenAddress) {
+    const { abi } = await provider.getClassAt(tokenAddress)
+    const tokenContract = new Contract(abi, tokenAddress, provider)
+
+    const balance = parseInt(await tokenContract.balanceOf(userAddress))
+    const decimals = parseInt(await tokenContract.decimals())
+
+    console.log(balance / 10 ** decimals, 'balance');
+    return balance / decimals
+}
+
+async function getAllTokenBalances(userAddress) {
+    const data = await blastService.getWalletTokenBalances(userAddress)
+
+    const tokenLists = data?.reduce((acc, currentValue) => {
+        const { balance, contractDecimals } = currentValue
+
+        console.log(balance, contractDecimals, 'balance');
+        const tokenBalance = {
+            balance: parseInt(balance) / 10 ** parseInt(contractDecimals)
+        }
+
+        console.log(tokenBalance, 'tokenBalance');
+        acc?.push({...currentValue, ...tokenBalance})
+
+        return acc
+    }, [])
+
+    console.log(tokenLists, "tokenLists");
+
+    return tokenLists
+}
+
+getAllTokenBalances("0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD")
+
 
 export {
     getAccount,
-    getAllTokenDetails
+    getAllTokenDetails,
+    getUserTokenBalance
 }

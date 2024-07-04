@@ -13,11 +13,11 @@ The first blazingly fast Starknet trading Telegram bot designed for seamless buy
 - **Sell Tokens**: Easily sell your tokens with minimal hassle.
 
 ### Token Information
-- **Full Details of Token Contracts**: Obtain comprehensive information about any token contract on StarkNet, including contract address, symbol, decimals, and more.
+- **Full Details of Tokens**: Obtain comprehensive information about any token  on StarkNet, including address, symbol, decimals, and more.
 
 ### Wallet Management
-- **Create Wallet**: Create a new wallet directly from the bot with a secure and straightforward process.
-- **Import Wallet**: Import an existing wallet using your private key or mnemonic phrase to access your tokens and transaction history.
+- **Create account**: Create any account directly from the bot with a secure and straightforward process.
+- **Import account**: Import an existing account using your private key to access your tokens and transaction history.
 
 ### Automated Trading
 - **Set Trading Rules**: Define your trading strategies and rules to automate the buying and selling of tokens.
@@ -36,60 +36,50 @@ To use the StarkTrade Bot, you need:
 
 ### Installation
 
-1. **Add StarkTrade Bot**: Search for `StarkTrade Bot` on Telegram and add it to your contacts.
+1. **Add StarkTrade Bot**: Search for [`StarkTrade Bot`](https://t.me/StarkTradeBot) on Telegram and add it to your contacts.
 2. **Start the Bot**: Open the chat with StarkTrade Bot and click on the `/start` command to initiate the bot.
 
 ### Usage
 
-#### Creating a Wallet
-1. **Create New Wallet**: Use the `/create_wallet` command to generate a new wallet. The bot will provide you with a secure mnemonic phrase—store this safely.
-2. **View Wallet**: Use the `/view_wallet` command to check your wallet details, including address and balance.
+#### Creating an Account
+1. **Create a New Account**: Navigate through the wallet commands to generate a new account. The bot will provide you with a secure mnemonic phrase—store this safely.
+2. **View Account**:  Navigate through the wallet commands to check your wallet details, including address and balance.
 
-#### Importing a Wallet
-1. **Import Wallet**: Use the `/import_wallet` command and follow the prompts to input your private key or mnemonic phrase.
-2. **Confirm Import**: Verify that your wallet has been imported successfully by checking the balance and transaction history.
+#### Importing an Account
+1. **Import Wallet**:  Navigate through the wallet commands and follow the prompts to input your private key or mnemonic phrase.
+2. **Confirm Import**: Verify that your wallet has been imported successfully by checking that the address coorespond to Argent X address.
 
 #### Trading Tokens
-1. **Buy Tokens**: Use the `/buy_token [token_symbol] [amount]` command to purchase tokens. For example, `/buy_token ETH 10`.
-2. **Sell Tokens**: Use the `/sell_token [token_symbol] [amount]` command to sell tokens. For example, `/sell_token ETH 5`.
+1. **Buy Tokens**: Use the `/buy` command to purchase tokens.
+2. **Sell Tokens**: Use the `/sell` command to sell tokens. 
 
 #### Automated Trading
-1. **Set Trading Rules**: Use the `/set_trading_rules` command to define your automated trading strategies and rules.
-2. **Activate Automated Trading**: Use the `/activate_auto_trading` command to start automated trading based on your predefined rules.
-3. **Monitor Trading**: Use the `/monitor_trading` command to view the status of your automated trades and make adjustments if necessary.
+1. **Set Trading Rules**: Navigate through the `/settings` command to define your automated trading strategies and rules.
 
 #### Token Information
-1. **Get Token Details**: Use the `/token_info [token_contract_address]` command to get detailed information about a specific token. For example, `/token_info 0x1234...abcd`.
+1. **Get Token Details**: Paste a token contract address to get a detailed information about a specific token
+.
 
-#### Portfolio Management
-1. **Track Tokens**: Use the `/track_tokens` command to view all tokens in your wallet along with their balances.
-2. **Manage Portfolio**: Use the `/manage_portfolio` command to organize and optimize your token holdings.
 
 ## Commands Summary
 
 | Command                        | Description                                           |
 |--------------------------------|-------------------------------------------------------|
 | `/start`                       | Initiates the bot                                     |
-| `/create_wallet`               | Creates a new wallet                                  |
-| `/import_wallet`               | Imports an existing wallet                            |
-| `/view_wallet`                 | Displays wallet details                               |
-| `/buy_token [token_symbol] [amount]` | Buys the specified amount of the token              |
-| `/sell_token [token_symbol] [amount]` | Sells the specified amount of the token             |
-| `/set_trading_rules`           | Sets automated trading rules                          |
-| `/activate_auto_trading`       | Activates automated trading based on set rules        |
-| `/monitor_trading`             | Monitors the status of automated trades               |
-| `/token_info [token_contract_address]` | Provides full details of the specified token contract |
-| `/track_tokens`                | Displays all tokens in the wallet                     |
-| `/manage_portfolio`            | Manages and organizes the token portfolio             |
+| `/home`                        | Displays the initial state of the bot                 |
+| `/wallet`                      | To create or import new account                       |
+| `/buy`                         | Buys Token                                            |
+| `/sell`                        | Sells Token                                           |
+
 
 ## Security
 
-- **Private Key/Mnemonic Safety**: Always keep your private key and mnemonic phrase secure. Do not share them with anyone.
+- **Private Key**: Always keep your private key secure. Do not share them with anyone.
 - **Bot Security**: The StarkTrade Bot uses secure connections to ensure your data is protected. Regular updates and security patches are applied to maintain safety.
 
 ## Support
 
-For any issues or inquiries, please contact our support team via the Telegram bot by using the `/support` command, or visit our [Support Page](https://support.starktradebot.com).
+For any issues or inquiries, please contact our support team via the Telegram bot by using the `/chat` command.
 
 ## Contributions
 

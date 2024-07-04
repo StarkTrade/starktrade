@@ -1,95 +1,92 @@
-# Telegram Bot Template for [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions)
+# StarkTrade Bot
 
-> 📖 [Documentation for grammY](https://grammy.dev)
+Welcome to the **StarkTrade Bot**! This README provides comprehensive details about the StarkTrade Bot, a trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network. With features like wallet creation, wallet import, detailed token contract information, and portfolio management, StarkTrade Bot is your go-to solution for managing and trading tokens on StarkNet.
 
-## What does this template do for you
+## Features
 
-### 1. Instant prototyping
+### Token Trading
+- **Buy Tokens**: Effortlessly buy tokens on the StarkNet network using simple commands.
+- **Sell Tokens**: Easily sell your tokens with minimal hassle.
 
-Just click the [blue button](#one-click-deploy) and change something in [src/bot.mjs](src/bot.mjs) in newly minted
-repository
+### Token Information
+- **Full Details of Token Contracts**: Obtain comprehensive information about any token contract on StarkNet, including contract address, symbol, decimals, and more.
 
-### 2. Universal bootstrap
+### Wallet Management
+- **Create Wallet**: Create a new wallet directly from the bot with a secure and straightforward process.
+- **Import Wallet**: Import an existing wallet using your private key or mnemonic phrase to access your tokens and transaction history.
 
-Use [webhooks](https://grammy.dev/guide/deployment-types.html#how-do-webhooks-work)
-or [long polling](https://grammy.dev/guide/deployment-types.html#how-does-long-polling-work) locally, even without a
-Vercel project or [CLI](https://vercel.com/docs/cli)
+### Portfolio Tracking
+- **Track Your Tokens**: Keep track of all your tokens in one place. View balances, recent transactions, and overall portfolio value.
+- **Manage Your Portfolio**: Organize and manage your token portfolio effectively, ensuring you have full control over your assets.
 
-### 3. Ready for production
+## Getting Started
 
-Webhooks will be automatically installed for every deployment on Vercel during
-the [build step](https://vercel.com/docs/concepts/deployments/builds)
+### Prerequisites
+To use the StarkTrade Bot, you need:
+- A Telegram account
+- Access to the StarkNet network
 
-## How to Use
+### Installation
 
-You can choose from one of the following two methods to use this repository:
+1. **Add StarkTrade Bot**: Search for `StarkTrade Bot` on Telegram and add it to your contacts.
+2. **Start the Bot**: Open the chat with StarkTrade Bot and click on the `/start` command to initiate the bot.
 
-### One-Click Deploy
+### Usage
 
-Deploy the template using [Vercel](https://vercel.com):
+#### Creating a Wallet
+1. **Create New Wallet**: Use the `/create_wallet` command to generate a new wallet. The bot will provide you with a secure mnemonic phrase—store this safely.
+2. **View Wallet**: Use the `/view_wallet` command to check your wallet details, including address and balance.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FPonomareVlad%2FgrammYVercelEdge&env=TELEGRAM_BOT_TOKEN&envDescription=Telegram%20Bot%20Token%20from%20%40BotFather&envLink=https%3A%2F%2Fcore.telegram.org%2Fbots%2Ftutorial%23obtain-your-bot-token&project-name=grammy-vercel-edge&repository-name=grammy-vercel-edge)
+#### Importing a Wallet
+1. **Import Wallet**: Use the `/import_wallet` command and follow the prompts to input your private key or mnemonic phrase.
+2. **Confirm Import**: Verify that your wallet has been imported successfully by checking the balance and transaction history.
 
-### Clone and Deploy
+#### Trading Tokens
+1. **Buy Tokens**: Use the `/buy_token [token_symbol] [amount]` command to purchase tokens. For example, `/buy_token ETH 10`.
+2. **Sell Tokens**: Use the `/sell_token [token_symbol] [amount]` command to sell tokens. For example, `/sell_token ETH 5`.
 
-Select the appropriate option and deploy it to the cloud with [Vercel](https://vercel.com/new)
+#### Token Information
+1. **Get Token Details**: Use the `/token_info [token_contract_address]` command to get detailed information about a specific token. For example, `/token_info 0x1234...abcd`.
 
-#### As Vercel project
+#### Portfolio Management
+1. **Track Tokens**: Use the `/track_tokens` command to view all tokens in your wallet along with their balances.
+2. **Manage Portfolio**: Use the `/manage_portfolio` command to organize and optimize your token holdings.
 
-> Please note that you will need to create a Vercel project and [set the bot token](#environment-variables) in the
-> settings
+## Commands Summary
 
-##### Using long polling
+| Command                        | Description                                           |
+|--------------------------------|-------------------------------------------------------|
+| `/start`                       | Initiates the bot                                     |
+| `/create_wallet`               | Creates a new wallet                                  |
+| `/import_wallet`               | Imports an existing wallet                            |
+| `/view_wallet`                 | Displays wallet details                               |
+| `/buy_token [token_symbol] [amount]` | Buys the specified amount of the token              |
+| `/sell_token [token_symbol] [amount]` | Sells the specified amount of the token             |
+| `/token_info [token_contract_address]` | Provides full details of the specified token contract |
+| `/track_tokens`                | Displays all tokens in the wallet                     |
+| `/manage_portfolio`            | Manages and organizes the token portfolio             |
 
-```bash
-npm run polling
-```
+## Security
 
-##### Using webhooks with [CloudFlare tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/do-more-with-tunnels/trycloudflare/) ([`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)) :
+- **Private Key/Mnemonic Safety**: Always keep your private key and mnemonic phrase secure. Do not share them with anyone.
+- **Bot Security**: The StarkTrade Bot uses secure connections to ensure your data is protected. Regular updates and security patches are applied to maintain safety.
 
-```bash
-npm run webhook
-```
+## Support
 
-And open link from terminal (ends with `*.trycloudflare.com`) to set webhooks URL
+For any issues or inquiries, please contact our support team via the Telegram bot by using the `/support` command, or visit our [Support Page](https://support.starktradebot.com).
 
-> If you want another tunnel, just use [`vercel dev`](https://vercel.com/docs/cli/dev)
+## Contributions
 
-#### As local project
+We welcome contributions to improve the StarkTrade Bot. Please fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-Set environment variable or create `.env` file:
+## License
 
-```dotenv
-TELEGRAM_BOT_TOKEN="Telegram Bot Token from t.me/BotFather"
-```
+StarkTrade Bot is licensed under the [MIT License](LICENSE).
 
-Run in long polling mode:
+## Disclaimer
 
-```bash
-npm run start
-```
+Trading tokens involves financial risk. Ensure you understand the risks involved and trade responsibly. StarkTrade Bot is not liable for any financial losses incurred while using the bot.
 
-> 💡 This command does not require a Vercel account or CLI installation to run
+---
 
-## Environment variables
-
-- `TELEGRAM_BOT_TOKEN` — Telegram bot token
-  from [@BotFather](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
-- `TELEGRAM_SECRET_TOKEN` — [Secret token](https://core.telegram.org/bots/api#:~:text=secret_token) for incoming
-  requests
-
-## Template structure
-
-- [src/bot.mjs](src/bot.mjs) — Bot initialization and logic
-- [scripts/start.mjs](scripts/start.mjs) — Starts bot in long polling mode
-- [scripts/build.mjs](scripts/build.mjs) — Sets webhook URL at build step
-- [api/webhook.mjs](api/webhook.mjs) — Function for set webhook URL at dev
-- [api/update.mjs](api/update.mjs) — Function for receiving updates
-
-## Related templates
-
-- [For Vercel Edge Functions](https://github.com/PonomareVlad/grammYVercelEdge)
-- [For Vercel Edge Functions with streaming response](https://github.com/PonomareVlad/grammYVercelEdgeStream)
-- [For Vercel Serverless Functions](https://github.com/PonomareVlad/grammYVercel)
-
-Made with 💜 by [Vladislav Ponomarev](https://GitHub.com/PonomareVlad)
+Thank you for choosing StarkTrade Bot. Happy trading!

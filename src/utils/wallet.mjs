@@ -28,7 +28,7 @@ export const createArgentAccount = () => {
         guardian: '0',
     });
 
-    const AXcontractAddress = hash.calculateContractAddressFromHash(
+    const ArgentAccountAddress = hash.calculateContractAddressFromHash(
     starkKeyPubAX,
     argentAccountClassHash,
     AXConstructorCallData,
@@ -37,8 +37,32 @@ export const createArgentAccount = () => {
 
     const argentAccountDetails = {
         privateKey: privateKeyAX,
-        account: AXcontractAddress
+        account: ArgentAccountAddress
     }
 
     return argentAccountDetails
+}
+
+export const deployArgentAccount = async (privateKey, ArgentAccountAddress) => {
+    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
+
+    const starkKeyPubAX = ec.starkCurve.getStarkKey(privateKey);
+
+    const AXConstructorCallData = CallData.compile({
+        owner: starkKeyPubAX,
+        guardian: '0',
+    });
+
+    const accountAX = new Account(provider, ArgentAccountAddress, privateKeyAX);
+
+    const deployAccountPayload = {
+        classHash: argentAccountClassHash,
+        constructorCalldata: AXConstructorCallData,
+        contractAddress: ArgentAccountAddress,
+        addressSalt: starkKeyPubAX,
+    };
+
+    const { transaction_hash: AXdAth, contract_address: AXcontractFinalAddress } = await accountAX.deployAccount(deployAccountPayload);
+
+    console.log('✅ ArgentX wallet deployed at:', AXcontractFinalAddress);
 }

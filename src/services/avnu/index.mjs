@@ -81,7 +81,7 @@ async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmo
 
         const callData = data.calls
 
-        await account.execute([approveCall, swapCall])
+        await account.execute(callData)
     } catch (error) {
         console.log(error)
     }

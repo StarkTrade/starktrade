@@ -2,7 +2,7 @@ import {InlineKeyboard} from "grammy";
 import { BigNumber } from "@ethersproject/bignumber";
 import { parseUnits } from "ethers";
 import { buyWithFibrous } from "../services/fibrous/index.mjs";
-import { testExecute } from "../services/avnu/index.mjs";
+
 
 
 export const buyOptions = new InlineKeyboard()

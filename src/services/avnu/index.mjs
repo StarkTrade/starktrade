@@ -1,4 +1,7 @@
 import axios from "axios";
+import { Account, RpcProvider, Provider, constants } from "starknet";
+import { STRK } from "../../utils/constants.mjs";
+
 
  const avnu = axios.create({
     // Todo: change base to process.env
@@ -60,6 +63,25 @@ async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAdd
         const callData = await buildCallData(quoteId, takerAddress, slippage);
         return callData;
 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmount, takerAddress, slippage) {
+
+    try {
+        const provider = new RpcProvider({ nodeUrl: 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7' });
+      
+        const account = new Account(provider, accountAddress, privateKey, "1");
+
+        const {data} = await callData(STRK, buyTokenAddress, sellAmount, takerAddress, slippage)
+
+        const callData = data.calls
+
+        await account.execute([approveCall, swapCall])
     } catch (error) {
         console.log(error)
     }

@@ -1,6 +1,8 @@
 # StarkTrade Bot
 
-Welcome to the **StarkTrade Bot**! This README provides comprehensive details about the StarkTrade Bot, a trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network. With features like wallet creation, wallet import, detailed token contract information, and portfolio management, StarkTrade Bot is your go-to solution for managing and trading tokens on StarkNet.
+Welcome to the **StarkTrade Bot** !!!
+This README provides comprehensive details about the StarkTrade Bot. 
+The first blazingly fast Starknet trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network. With features like account creation and import, detailed token information, automated trading, and portfolio management. StarkTrade Bot is your go-to solution for managing and trading tokens on StarkNet.
 
 ## Features
 
@@ -14,6 +16,10 @@ Welcome to the **StarkTrade Bot**! This README provides comprehensive details ab
 ### Wallet Management
 - **Create Wallet**: Create a new wallet directly from the bot with a secure and straightforward process.
 - **Import Wallet**: Import an existing wallet using your private key or mnemonic phrase to access your tokens and transaction history.
+
+### Automated Trading
+- **Set Trading Rules**: Define your trading strategies and rules to automate the buying and selling of tokens.
+- **Monitor Market Conditions**: Automatically monitor market conditions and execute trades based on your predefined rules.
 
 ### Portfolio Tracking
 - **Track Your Tokens**: Keep track of all your tokens in one place. View balances, recent transactions, and overall portfolio value.
@@ -45,6 +51,11 @@ To use the StarkTrade Bot, you need:
 1. **Buy Tokens**: Use the `/buy_token [token_symbol] [amount]` command to purchase tokens. For example, `/buy_token ETH 10`.
 2. **Sell Tokens**: Use the `/sell_token [token_symbol] [amount]` command to sell tokens. For example, `/sell_token ETH 5`.
 
+#### Automated Trading
+1. **Set Trading Rules**: Use the `/set_trading_rules` command to define your automated trading strategies and rules.
+2. **Activate Automated Trading**: Use the `/activate_auto_trading` command to start automated trading based on your predefined rules.
+3. **Monitor Trading**: Use the `/monitor_trading` command to view the status of your automated trades and make adjustments if necessary.
+
 #### Token Information
 1. **Get Token Details**: Use the `/token_info [token_contract_address]` command to get detailed information about a specific token. For example, `/token_info 0x1234...abcd`.
 
@@ -62,6 +73,9 @@ To use the StarkTrade Bot, you need:
 | `/view_wallet`                 | Displays wallet details                               |
 | `/buy_token [token_symbol] [amount]` | Buys the specified amount of the token              |
 | `/sell_token [token_symbol] [amount]` | Sells the specified amount of the token             |
+| `/set_trading_rules`           | Sets automated trading rules                          |
+| `/activate_auto_trading`       | Activates automated trading based on set rules        |
+| `/monitor_trading`             | Monitors the status of automated trades               |
 | `/token_info [token_contract_address]` | Provides full details of the specified token contract |
 | `/track_tokens`                | Displays all tokens in the wallet                     |
 | `/manage_portfolio`            | Manages and organizes the token portfolio             |

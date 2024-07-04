@@ -1,10 +1,23 @@
 import axios from "axios";
 
-export const avnu = axios.create({
+ const avnu = axios.create({
     // Todo: change base to process.env
     baseURL: "https://starknet.api.avnu.fi/",
-    // baseURL: "https://sepolia.api.avnu.fi/",
 })
+
+
+
+const api = {
+    getQuote: async (data) => {
+        return await avnu.get(`swap/v2/quotes?sellTokenAddress=${data.sellTokenAddress}&buyTokenAddress=${data.buyTokenAddress}&sellAmount=${data.sellAmount}&takerAddress=${data.takerAddress}`)
+        },
+
+    buildTypedData: async (data) => {
+        return await avnu.post(`swap/v2/build`, data)
+    },
+
+}
+
 
 
 

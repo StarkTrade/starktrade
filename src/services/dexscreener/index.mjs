@@ -1,8 +1,9 @@
 import axios from "axios";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const dexScreener = axios.create({
-    // Todo: change base to process.env
-    baseURL: "https://api.dexscreener.com/latest/dex/tokens",
+    baseURL: process.env.DEXSCREENER_BASE_URL,
 })
 
 export const dexScreenerService = {

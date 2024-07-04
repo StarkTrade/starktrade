@@ -1,95 +1,98 @@
-# Telegram Bot Template for [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions)
+# StarkTrade Bot
 
-> 📖 [Documentation for grammY](https://grammy.dev)
+Welcome to the **StarkTrade Bot** !!!
 
-## What does this template do for you
 
-### 1. Instant prototyping
+This README provides a comprehensive details about the StarkTrade Bot. 
+The first blazingly fast Starknet trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network, with features like account creation and import, detailed token information, automated trading, and portfolio management. 
 
-Just click the [blue button](#one-click-deploy) and change something in [src/bot.mjs](src/bot.mjs) in newly minted
-repository
+## Features
 
-### 2. Universal bootstrap
+### Token Trading
+- **Buy Tokens**: Effortlessly buy tokens on the StarkNet network using simple commands.
+- **Sell Tokens**: Easily sell your tokens with minimal hassle.
 
-Use [webhooks](https://grammy.dev/guide/deployment-types.html#how-do-webhooks-work)
-or [long polling](https://grammy.dev/guide/deployment-types.html#how-does-long-polling-work) locally, even without a
-Vercel project or [CLI](https://vercel.com/docs/cli)
+### Token Information
+- **Full Details of Tokens**: Obtain comprehensive information about any token  on StarkNet, including address, symbol, decimals, and more.
 
-### 3. Ready for production
+### Wallet Management
+- **Create account**: Create any account directly from the bot with a secure and straightforward process.
+- **Import account**: Import an existing account using your private key to access your tokens and transaction history.
 
-Webhooks will be automatically installed for every deployment on Vercel during
-the [build step](https://vercel.com/docs/concepts/deployments/builds)
+### Automated Trading
+- **Set Trading Rules**: Define your trading strategies and rules to automate the buying and selling of tokens.
+- **Monitor Market Conditions**: Automatically monitor market conditions and execute trades based on your predefined rules.
 
-## How to Use
+### Portfolio Tracking
+- **Track Your Tokens**: Keep track of all your tokens in one place. View balances, recent transactions, and overall portfolio value.
+- **Manage Your Portfolio**: Organize and manage your token portfolio effectively, ensuring you have full control over your assets.
 
-You can choose from one of the following two methods to use this repository:
+## Getting Started
 
-### One-Click Deploy
+### Prerequisites
+To use the StarkTrade Bot, you need:
+- A Telegram account
+- Access to the StarkNet network
 
-Deploy the template using [Vercel](https://vercel.com):
+### Installation
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FPonomareVlad%2FgrammYVercelEdge&env=TELEGRAM_BOT_TOKEN&envDescription=Telegram%20Bot%20Token%20from%20%40BotFather&envLink=https%3A%2F%2Fcore.telegram.org%2Fbots%2Ftutorial%23obtain-your-bot-token&project-name=grammy-vercel-edge&repository-name=grammy-vercel-edge)
+1. **Add StarkTrade Bot**: Search for [`StarkTrade Bot`](https://t.me/StarkTradeBot) on Telegram and add it to your contacts.
+2. **Start the Bot**: Open the chat with StarkTrade Bot and click on the `/start` command to initiate the bot.
 
-### Clone and Deploy
+### Usage
 
-Select the appropriate option and deploy it to the cloud with [Vercel](https://vercel.com/new)
+#### Creating an Account
+1. **Create a New Account**: Navigate through the wallet commands to generate a new account. The bot will provide you with a secure mnemonic phrase—store this safely.
+2. **View Account**:  Navigate through the wallet commands to check your wallet details, including address and balance.
 
-#### As Vercel project
+#### Importing an Account
+1. **Import Wallet**:  Navigate through the wallet commands and follow the prompts to input your private key or mnemonic phrase.
+2. **Confirm Import**: Verify that your wallet has been imported successfully by checking that the address coorespond to Argent X address.
 
-> Please note that you will need to create a Vercel project and [set the bot token](#environment-variables) in the
-> settings
+#### Trading Tokens
+1. **Buy Tokens**: Use the `/buy` command to purchase tokens.
+2. **Sell Tokens**: Use the `/sell` command to sell tokens. 
 
-##### Using long polling
+#### Automated Trading
+1. **Set Trading Rules**: Navigate through the `/settings` command to define your automated trading strategies and rules.
 
-```bash
-npm run polling
-```
+#### Token Information
+1. **Get Token Details**: Paste a token contract address to get a detailed information about a specific token
+.
 
-##### Using webhooks with [CloudFlare tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/do-more-with-tunnels/trycloudflare/) ([`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/)) :
 
-```bash
-npm run webhook
-```
+## Commands Summary
 
-And open link from terminal (ends with `*.trycloudflare.com`) to set webhooks URL
+| Command                        | Description                                           |
+|--------------------------------|-------------------------------------------------------|
+| `/start`                       | Initiates the bot                                     |
+| `/home`                        | Displays the initial state of the bot                 |
+| `/wallet`                      | To create or import new account                       |
+| `/buy`                         | Buys Token                                            |
+| `/sell`                        | Sells Token                                           |
 
-> If you want another tunnel, just use [`vercel dev`](https://vercel.com/docs/cli/dev)
 
-#### As local project
+## Security
 
-Set environment variable or create `.env` file:
+- **Private Key**: Always keep your private key secure. Do not share them with anyone.
+- **Bot Security**: The StarkTrade Bot uses secure connections to ensure your data is protected. Regular updates and security patches are applied to maintain safety.
 
-```dotenv
-TELEGRAM_BOT_TOKEN="Telegram Bot Token from t.me/BotFather"
-```
+## Support
 
-Run in long polling mode:
+For any issues or inquiries, please contact our support team via the Telegram bot by using the `/chat` command.
 
-```bash
-npm run start
-```
+## Contributions
 
-> 💡 This command does not require a Vercel account or CLI installation to run
+We welcome contributions to improve the StarkTrade Bot. Please fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-## Environment variables
+## License
 
-- `TELEGRAM_BOT_TOKEN` — Telegram bot token
-  from [@BotFather](https://core.telegram.org/bots/tutorial#obtain-your-bot-token)
-- `TELEGRAM_SECRET_TOKEN` — [Secret token](https://core.telegram.org/bots/api#:~:text=secret_token) for incoming
-  requests
+StarkTrade Bot is licensed under the [MIT License](LICENSE).
 
-## Template structure
+## Disclaimer
 
-- [src/bot.mjs](src/bot.mjs) — Bot initialization and logic
-- [scripts/start.mjs](scripts/start.mjs) — Starts bot in long polling mode
-- [scripts/build.mjs](scripts/build.mjs) — Sets webhook URL at build step
-- [api/webhook.mjs](api/webhook.mjs) — Function for set webhook URL at dev
-- [api/update.mjs](api/update.mjs) — Function for receiving updates
+Trading tokens involves financial risk. Ensure you understand the risks involved and trade responsibly. StarkTrade Bot is not liable for any financial losses incurred while using the bot.
 
-## Related templates
+---
 
-- [For Vercel Edge Functions](https://github.com/PonomareVlad/grammYVercelEdge)
-- [For Vercel Edge Functions with streaming response](https://github.com/PonomareVlad/grammYVercelEdgeStream)
-- [For Vercel Serverless Functions](https://github.com/PonomareVlad/grammYVercel)
-
-Made with 💜 by [Vladislav Ponomarev](https://GitHub.com/PonomareVlad)
+Thank you for choosing StarkTrade Bot. Happy trading!

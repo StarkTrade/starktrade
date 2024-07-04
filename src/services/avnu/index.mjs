@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Account, RpcProvider, Provider, constants } from "starknet";
 import { STRK } from "../../utils/constants.mjs";
+import dotenv from 'dotenv';
+dotenv.config();
 
 
  const avnu = axios.create({
-    // Todo: change base to process.env
-    baseURL: "https://starknet.api.avnu.fi/",
+    baseURL: process.env.AVNU_BASE_URL,
 })
 
 
@@ -70,10 +71,10 @@ async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAdd
 
 
 
-async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmount, takerAddress, slippage) {
+export async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmount, takerAddress, slippage) {
 
     try {
-        const provider = new RpcProvider({ nodeUrl: 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7' });
+        const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
       
         const account = new Account(provider, accountAddress, privateKey, "1");
 
@@ -88,3 +89,20 @@ async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmo
 }
 
 
+async function testExecute() {
+    try {
+      const executeData = await callData(
+        "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+        "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+        "0xDE0B6B3A7640000",
+        "0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD",
+        0.05
+      )
+  
+      console.log("execute", executeData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  testExecute()

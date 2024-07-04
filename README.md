@@ -1,8 +1,10 @@
 # StarkTrade Bot
 
 Welcome to the **StarkTrade Bot** !!!
-This README provides comprehensive details about the StarkTrade Bot. 
-The first blazingly fast Starknet trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network. With features like account creation and import, detailed token information, automated trading, and portfolio management. StarkTrade Bot is your go-to solution for managing and trading tokens on StarkNet.
+
+
+This README provides a comprehensive details about the StarkTrade Bot. 
+The first blazingly fast Starknet trading Telegram bot designed for seamless buying and selling of tokens on the StarkNet network, with features like account creation and import, detailed token information, automated trading, and portfolio management. 
 
 ## Features
 

@@ -1,7 +1,7 @@
 import {InlineKeyboard} from "grammy";
 import { BigNumber } from "@ethersproject/bignumber";
 import { parseUnits } from "ethers";
-import { buyWithFibrous } from "../services/fibrous/index.mjs";
+import { tradeWithFibrous } from "../services/fibrous/index.mjs";
 import { tradeWithAvnu } from "../services/avnu/index.mjs";
 
 
@@ -12,8 +12,8 @@ export const buyOptions = new InlineKeyboard()
 
 
 
-export async function executeBuy (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
-  buyWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenOutAddress);
+export async function executeBuy (accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress) {
+  tradeWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress);
 }
 
 

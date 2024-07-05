@@ -172,7 +172,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}*
             \n[Website](${websites})   \n[View Chart](${viewChart})
-            \nWallet Balance: *0*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions , parse_mode: 'Markdown',  disable_web_page_preview: true });
+            \nWallet Balance: *0*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
         }else {
             await ctx.reply(`Token not found. Make sure address *${ctx.message.text}* is a valid starknet token address correct.
                 \nIf you are trying to enter a buy or sell amount, ensure you click and reply to the message`,
@@ -187,3 +187,4 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 // console.log(getAccountFromPrivateKey(String("0x0123")), "address")
 
 console.log(createArgentAccount());
+

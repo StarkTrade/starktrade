@@ -156,9 +156,9 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     } else {
         // console.log("tokenData", tokenData)
         if (tokenData ) {
-            ctx.session.tokenOutAddress = tokenData?.tokenAddress
+            ctx.session.tokenAddress = tokenData?.tokenAddress
     
-            console.log("Our stored address :", ctx.session.tokenOutAddress)
+            console.log("Our stored address :", ctx.session.tokenAddress)
 
             console.log(tokenData, "tokenData")
             const  {

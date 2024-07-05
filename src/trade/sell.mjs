@@ -1,4 +1,5 @@
 import {InlineKeyboard} from "grammy";
+import { tradeWithAvnu } from "../services/avnu/index.mjs";
 
 export const sellOptions = new InlineKeyboard()
   .text("Sell 25%", "sell_25")

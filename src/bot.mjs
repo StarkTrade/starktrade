@@ -5,7 +5,7 @@ import { sellOptions } from "./trade/sell.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./utils/storage.mjs";
-import { getAccountFromPrivateKey, createArgentAccount } from "./utils/wallet.mjs";
+import { getAccountFromPrivateKey, createArgentAccount, deployArgentAccount } from "./utils/wallet.mjs";
 
 import dotenv from 'dotenv';
 dotenv.config();

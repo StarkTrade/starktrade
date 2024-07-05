@@ -1,9 +1,42 @@
 import {InlineKeyboard} from "grammy";
 import { tradeWithAvnu } from "../services/avnu/index.mjs";
 
-export const sellOptions = new InlineKeyboard()
-  .text("Sell 25%", "sell_25")
-  .text("Sell 50%", "sell_50").row()
-  .text("Sell 75%", "sell_75")
-  .text("Sell 100%", "sell_100").row()
-  .text("Sell X", "sell_x");
+export async function sell_25(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export async function sell_50(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export async function sell_75(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export async function sell_100(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
+export async function sell_x(accountAddress, privateKey, slippage, sellAmount, tokenInAddress, tokenOutAddress) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}

@@ -101,7 +101,9 @@ bot.callbackQuery("buy", async (ctx) => {
 });
 
 bot.callbackQuery("sell", async (ctx) => {
-    await ctx.reply("Sell Token:", { reply_markup: sellOptions });
+    ctx.session.sellInit = true
+    await ctx.reply(`Sell Token:
+    \nInput contract address of token to sell`);
 });
 
 bot.callbackQuery("wallet", async (ctx) => {
@@ -244,7 +246,7 @@ bot.callbackQuery("buy_x", async (ctx) => {
 */
 bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     const input = ctx.match[0]
-    const { walletRequested, accountAddress } = ctx.session
+    const { walletRequested, accountAddress, sellInit } = ctx.session
     const tokenData = await getAllTokenDetails(input);
 
     if (walletRequested) {
@@ -261,7 +263,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
             });
     } else {
         if (tokenData ) {
-            ctx.session.tokenOutAddress = tokenData?.tokenAddress
+            ctx.session.tokenAddress = tokenData?.tokenAddress
 
             const  {
                 tokenName,
@@ -278,7 +280,14 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}*
             \n[Website](${websites})   \n[View Chart](${viewChart})
-            \n*Wallet Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*. \nTo buy press one of the buttons below. `, { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
+            \n*Wallet Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*.`);
+
+            if(sellInit) {
+                ctx.session.sellInit = false
+                await ctx.reply("Select any of the buy options below:", { reply_markup: sellOptions });
+            } else {
+                await ctx.reply("Select any of the buy options below:", { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
+            }
         }else {
             await ctx.reply(`Token not found. Make sure address *${ctx.message.text}* is a valid starknet token address correct.
                 \nIf you are trying to enter a buy or sell amount, ensure you click and reply to the message`,

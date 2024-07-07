@@ -1,7 +1,7 @@
 import { Bot, Keyboard, session } from "grammy";
 import { homeOptions, walletOptions, settingOptions } from './utils/inlineButtons.mjs';
 import { buyOptions } from "./trade/buy.mjs";
-import { sellOptions } from "./trade/sell.mjs";
+import { sellOptions } from "./utils/inlineButtons.mjs";
 import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./utils/storage.mjs";
@@ -97,7 +97,9 @@ bot.callbackQuery("buy", async (ctx) => {
 });
 
 bot.callbackQuery("sell", async (ctx) => {
-    await ctx.reply("Sell Token:", { reply_markup: sellOptions });
+    ctx.session.sellInit = true
+    await ctx.reply(`Sell Token:
+    \nInput contract address of token to sell`);
 });
 
 bot.callbackQuery("wallet", async (ctx) => {
@@ -229,7 +231,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 */
 bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     const input = ctx.match[0]
-    const { walletRequested } = ctx.session
+    const { walletRequested, sellInit } = ctx.session
     const tokenData = await getAllTokenDetails(input);
 
     if (walletRequested) {
@@ -244,6 +246,8 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
                 parse_mode: 'Markdown',
                 disable_web_page_preview: true
             });
+    } else if(sellInit) {
+        await ctx.reply("Sell Token:", { reply_markup: sellOptions });
     } else {
         // console.log("tokenData", tokenData)
         if (tokenData ) {

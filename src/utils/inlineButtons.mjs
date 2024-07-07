@@ -11,6 +11,13 @@ const walletOptions = new InlineKeyboard()
   .text("Create Wallet", "create_wallet")
   .text("Import Wallet", "import_wallet");
 
+const sellOptions = new InlineKeyboard()
+    .text("Sell 25%", "sell_25")
+    .text("Sell 50%", "sell_50").row()
+    .text("Sell 75%", "sell_75")
+    .text("Sell 100%", "sell_100").row()
+    .text("Sell X", "sell_x");
+
 const settingOptions = new InlineKeyboard()
   .text("Min Position Val", "min_position_val")
   .text("Buy Button Config", "buy_button_config").row()
@@ -21,5 +28,6 @@ const settingOptions = new InlineKeyboard()
 export {
     homeOptions,
     walletOptions,
+    sellOptions,
     settingOptions,
 };

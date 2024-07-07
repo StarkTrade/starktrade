@@ -1,24 +1,21 @@
 import { blastService } from "../services/blast/index.mjs";
 import { dexScreenerService } from "../services/dexscreener/index.mjs";
-import { Account } from "starknet";
+import { RpcProvider, Contract } from "starknet";
+import dotenv from 'dotenv';
+dotenv.config();
 
-
-function getAccount (provider, accountAddress, privateKey) {
-    const account = new Account(provider, accountAddress, privateKey);
-    return account
+const padWithZero = (address) => {
+    return `${address.slice(0,2)}0${address.slice(2)}`
 }
-
 
 async function getAllTokenDetails (tokenAddress) {
     try {
     
         let {data} = await dexScreenerService.getTokenDetails(tokenAddress)
         if (data) {
-            console.log(data, "length")
             if (data?.pairs?.length > 0) {
         
                 let res = data.pairs[0]
-                console.log("First pair", res)
                 return {
                     tokenName: res.baseToken.name,
                     tokenSymbol: res.baseToken.symbol,
@@ -46,14 +43,14 @@ async function getAllTokenDetails (tokenAddress) {
 }
 
 async function getUserTokenBalance(userAddress, tokenAddress) {
+    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
     const { abi } = await provider.getClassAt(tokenAddress)
     const tokenContract = new Contract(abi, tokenAddress, provider)
 
     const balance = parseInt(await tokenContract.balanceOf(userAddress))
     const decimals = parseInt(await tokenContract.decimals())
 
-    console.log(balance / 10 ** decimals, 'balance');
-    return balance / decimals
+    return (balance / 10**decimals).toFixed(2)
 }
 
 async function getAllTokenBalances(userAddress) {
@@ -62,27 +59,21 @@ async function getAllTokenBalances(userAddress) {
     const tokenLists = data?.reduce((acc, currentValue) => {
         const { balance, contractDecimals } = currentValue
 
-        console.log(balance, contractDecimals, 'balance');
         const tokenBalance = {
             balance: parseInt(balance) / 10 ** parseInt(contractDecimals)
         }
 
-        console.log(tokenBalance, 'tokenBalance');
         acc?.push({...currentValue, ...tokenBalance})
 
         return acc
     }, [])
 
-    console.log(tokenLists, "tokenLists");
-
     return tokenLists
 }
 
-// getAllTokenBalances("0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD")
-
-
 export {
-    getAccount,
+    padWithZero,
     getAllTokenDetails,
-    getUserTokenBalance
+    getUserTokenBalance,
+    getAllTokenBalances
 }

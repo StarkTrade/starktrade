@@ -65,7 +65,7 @@ export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, t
         return callData;
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 

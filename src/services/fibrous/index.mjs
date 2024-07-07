@@ -1,12 +1,12 @@
 import { Account, RpcProvider, Provider, constants } from "starknet";
+import { STRK } from "../../utils/constants.mjs";
 import { Router as FibrousRouter } from "fibrous-router-sdk";
 import dotenv from 'dotenv';
 dotenv.config();
 
 const fibrous = new FibrousRouter();
 
-export async function tradeWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress) {
-
+export async function buyWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
   try {
     
     const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET }); 

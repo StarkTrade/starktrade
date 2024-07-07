@@ -5,18 +5,17 @@ const homeOptions = new InlineKeyboard()
   .text("Sell", "sell").row()
   .text("Wallet", "wallet")
   .text("Settings", "settings").row()
-  .text("Refresh", "refresh");
+  .text("Portfolio", "portfolio");
+
+
+const walletOptionBefore = new InlineKeyboard()
+  .text("Create Account", "create_wallet")
+  .text("Import Account", "import_wallet");
 
 const walletOptions = new InlineKeyboard()
-  .text("Create Wallet", "create_wallet")
-  .text("Import Wallet", "import_wallet");
-
-const sellOptions = new InlineKeyboard()
-    .text("Sell 25%", "sell_25")
-    .text("Sell 50%", "sell_50").row()
-    .text("Sell 75%", "sell_75")
-    .text("Sell 100%", "sell_100").row()
-    .text("Sell X", "sell_x");
+  .text("Create Account", "create_wallet")
+  .text("Import Account", "import_wallet").row()
+  .text("View Account", "view_wallet");
 
 const settingOptions = new InlineKeyboard()
   .text("Min Position Val", "min_position_val")
@@ -27,7 +26,7 @@ const settingOptions = new InlineKeyboard()
 
 export {
     homeOptions,
+    walletOptionBefore,
     walletOptions,
-    sellOptions,
     settingOptions,
 };

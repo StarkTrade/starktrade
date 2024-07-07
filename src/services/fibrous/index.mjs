@@ -7,21 +7,21 @@ const fibrous = new FibrousRouter();
 
 export async function tradeWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress) {
 
-    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
-  
-    console.log(provider, "provider")
+  try {
+    
+    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET }); 
   
     const account = new Account(provider, accountAddress, privateKey, "1");
-  
+
     const approveCall = await fibrous.buildApprove(
-      inputAmount,
+      BigNumber.from(parseUnits(inputAmount)),
       tokenInAddress,
     );
   
     console.log("approveCall", approveCall);
   
     const swapCall = await fibrous.buildTransaction(
-      inputAmount,
+      BigNumber.from(parseUnits(inputAmount)),
       tokenInAddress,
       tokenOutAddress,
       slippage,
@@ -30,5 +30,8 @@ export async function tradeWithFibrous (accountAddress, privateKey, slippage, in
   
     console.log("swapCall", swapCall);
   
-    await account.execute([approveCall, swapCall])
+  return await account.execute([approveCall, swapCall])
+  } catch (error) {
+    console.error(error)
+  }  
 }

@@ -17,8 +17,6 @@ export const buyOptions = (ctx) => {
 
 
 export async function executeBuy (privateKey, accountAddress, tokenInAddress, tokenOutAddress, inputAmount, slippage) {
-
-
     
     let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, inputAmount, slippage);
 
@@ -26,14 +24,7 @@ export async function executeBuy (privateKey, accountAddress, tokenInAddress, to
       
       let res = await tradeWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress);
 
-      if (res) {
-        return true
-      }
-      
-      if (!res) {
-
-        return "Service request too High at the moment. Please try again later."
-      }
+      return res
 
     }
 }

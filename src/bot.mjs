@@ -145,11 +145,11 @@ bot.callbackQuery("buy_min", async (ctx) => {
     } else {
         let buy = await executeBuy(secretKey, accountAddres, ETH, tokenOutAddress, buy_with_min_eth, slippage)
 
-        if (buy === true) {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
-
+        if (!buy) {
+            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
+            
         } else {
-            await ctx.reply(`${buy}`, { reply_markup: buyOptions(ctx) });
+            await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
         }
     }
 })

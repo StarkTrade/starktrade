@@ -328,4 +328,4 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 
 // console.log(getAccountFromPrivateKey(String("0x0123")), "address")
 
-// console.log(createArgentAccount());
+console.log(createArgentAccount());

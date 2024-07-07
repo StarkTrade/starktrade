@@ -72,7 +72,6 @@ export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, t
 
 
 export async function tradeWithAvnu (privateKey, accountAddress, sellTokenAddress, buyTokenAddress, sellAmount, slippage) {
-
     try {
         const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
       

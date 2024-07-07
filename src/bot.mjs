@@ -141,9 +141,16 @@ bot.callbackQuery("buy_min", async (ctx) => {
     } = ctx.session 
 
     if (balance < buy_with_min_eth) {
-        await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
+        await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
     } else {
         let buy = await executeBuy(secretKey, accountAddres, ETH, tokenOutAddress, buy_with_min_eth, slippage)
+
+        if (buy === true) {
+            await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+
+        } else {
+            await ctx.reply(`${buy}`, { reply_markup: buyOptions(ctx) });
+        }
     }
 })
 

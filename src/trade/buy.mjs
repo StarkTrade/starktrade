@@ -25,6 +25,10 @@ export async function executeBuy (privateKey, accountAddress, tokenInAddress, to
     if (!data) {
       
       let res = await tradeWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress);
+
+      if (res) {
+        return true
+      }
       
       if (!res) {
 

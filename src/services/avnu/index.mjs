@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Account, RpcProvider, Provider, constants } from "starknet";
-import { STRK } from "../../utils/constants.mjs";
 import dotenv from 'dotenv';
 dotenv.config();
 

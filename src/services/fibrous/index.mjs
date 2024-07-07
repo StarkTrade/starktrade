@@ -18,8 +18,6 @@ export async function tradeWithFibrous (accountAddress, privateKey, slippage, in
       tokenInAddress,
     );
   
-    console.log("approveCall", approveCall);
-  
     const swapCall = await fibrous.buildTransaction(
       BigNumber.from(parseUnits(inputAmount)),
       tokenInAddress,

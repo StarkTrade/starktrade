@@ -6,6 +6,8 @@ import { botCommands } from './utils/commands.mjs';
 import { getAllTokenDetails } from "./trade/helper.mjs";
 import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from "./utils/storage.mjs";
 import { getAccountFromPrivateKey, createArgentAccount, deployArgentAccount } from "./utils/wallet.mjs";
+import { executeBuy } from "./trade/buy.mjs";
+import { ETH } from "./utils/constants.mjs";
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -125,6 +127,24 @@ bot.callbackQuery("import_wallet", async (ctx) => {
     const { secretKey } = ctx.session
     ctx.session.walletRequested = true
     await ctx.reply("*Please Input your Private Key:*", {parse_mode: 'Markdown'});
+})
+
+
+bot.callbackQuery("buy_min", async (ctx) => {
+    const { 
+        secretKey, 
+        accountAddres, 
+        balance,  
+        slippage, 
+        buy_with_min_eth,
+        tokenOutAddress
+    } = ctx.session 
+
+    if (balance < buy_with_min_eth) {
+        await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
+    } else {
+        let buy = await executeBuy(secretKey, accountAddres, ETH, tokenOutAddress, buy_with_min_eth, slippage)
+    }
 })
 
 

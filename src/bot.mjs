@@ -180,6 +180,46 @@ bot.callbackQuery("buy_max", async (ctx) => {
 })
 
 
+bot.callbackQuery("buy_x", async (ctx) => {
+  
+    ctx.session.tradeInitiated = true
+    await ctx.reply("*Please Input your ETH amount:*", {parse_mode: 'Markdown'});
+})
+
+
+bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
+
+    const { 
+        secretKey, 
+        accountAddres, 
+        balance,  
+        slippage, 
+        tokenOutAddress
+    } = ctx.session 
+
+    const input = ctx.match[0]
+    
+    if (!ctx.session.tradeInitiated) {
+        await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
+    } else {
+
+        ctx.session.tradeInitiated = false;
+
+        if (balance < input) {
+            await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
+        } else {
+            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenOutAddress, input, slippage)
+    
+            if (!buy) {
+                await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
+                
+            } else {
+                await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+            }
+        }
+
+    }
+})
 
 
 

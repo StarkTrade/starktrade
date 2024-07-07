@@ -65,26 +65,26 @@ async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAdd
         return callData;
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
 
 
-export async function tradeWithAvnu (privateKey, accountAddress, sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, slippage) {
+export async function buyWithAvnu (privateKey, accountAddress, buyTokenAddress, sellAmount, takerAddress, slippage) {
 
     try {
         const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
       
         const account = new Account(provider, accountAddress, privateKey, "1");
 
-        const {data} = await callData(sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, slippage)
+        const {data} = await callData(STRK, buyTokenAddress, sellAmount, takerAddress, slippage)
 
         const callData = data.calls
 
         await account.execute(callData)
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }
 
@@ -98,10 +98,9 @@ async function testExecute() {
         "0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD",
         0.05
       )
-  
-      console.log("execute", executeData.data)
+
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

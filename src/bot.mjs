@@ -189,40 +189,6 @@ bot.callbackQuery("buy_x", async (ctx) => {
 })
 
 
-bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
-
-    const { 
-        secretKey, 
-        accountAddres, 
-        balance,  
-        slippage, 
-        tokenAddress
-    } = ctx.session 
-
-    const input = ctx.match[0]
-    
-    if (!ctx.session.buyInit) {
-        await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
-    } else {
-
-        ctx.session.buyInit = false;
-
-        if (balance < input) {
-            await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
-        } else {
-            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, input, slippage)
-    
-            if (!buy) {
-                await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
-                
-            } else {
-                await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
-            }
-        }
-
-    }
-})
-
 
 
 /*====================================================
@@ -280,6 +246,41 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
         }
     }
 });
+
+
+bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
+
+    const { 
+        secretKey, 
+        accountAddres, 
+        balance,  
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+
+    const input = ctx.match[0]
+    
+    if (!ctx.session.buyInit) {
+        await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
+    } else {
+
+        ctx.session.buyInit = false;
+
+        if (balance < input) {
+            await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
+        } else {
+            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, input, slippage)
+    
+            if (!buy) {
+                await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
+                
+            } else {
+                await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+            }
+        }
+
+    }
+})
 
 
 

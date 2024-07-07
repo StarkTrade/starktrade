@@ -5,15 +5,27 @@ import { buyWithFibrous } from "../services/fibrous/index.mjs";
 import { buyWithAvnu } from "../services/avnu/index.mjs";
 
 
-export const buyOptions = new InlineKeyboard()
-  .text("Buy with 100 STRK", "buy_100")
-  .text("Buy with 500 STRK", "buy_500").row()
-  .text("Buy with X STRK", "buy_x");
+export const buyOptions = (ctx) => {
+
+  const { buy_with_min_eth, buy_with_max_eth } = ctx.session
+  
+  return new InlineKeyboard()
+    .text(`Buy with ${buy_with_min_eth} ETH`, "buy_min")
+    .text(`Buy with ${buy_with_max_eth} ETH`, "buy_max").row()
+    .text(`Buy with X ETH`, "buy_x");
+}
 
 
+export async function executeBuy (privateKey, accountAddress, tokenInAddress, tokenOutAddress, inputAmount, slippage) {
+    
+    let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, inputAmount, slippage);
 
-export async function executeBuy (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
-  buyWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenOutAddress);
+    if (!data) {
+      
+      let res = await tradeWithFibrous(accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress);
+
+      return res
+    }
 }
 
 

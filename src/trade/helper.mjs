@@ -71,7 +71,6 @@ async function getAllTokenBalances(userAddress) {
     return tokenLists
 }
 
-
 export {
     padWithZero,
     getAllTokenDetails,

@@ -7,23 +7,29 @@ dotenv.config();
 const fibrous = new FibrousRouter();
 
 export async function buyWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
-
-    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
+  try {
+    
+    const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET }); 
   
     const account = new Account(provider, accountAddress, privateKey, "1");
-  
+
     const approveCall = await fibrous.buildApprove(
-      inputAmount,
-      STRK,
+      BigNumber.from(parseUnits(inputAmount)),
+      tokenInAddress,
     );
   
     const swapCall = await fibrous.buildTransaction(
-      inputAmount,
-      STRK,
+      BigNumber.from(parseUnits(inputAmount)),
+      tokenInAddress,
       tokenOutAddress,
       slippage,
       accountAddress,
     );
   
-    await account.execute([approveCall, swapCall])
+    console.log("swapCall", swapCall);
+  
+  return await account.execute([approveCall, swapCall])
+  } catch (error) {
+    console.error(error)
+  }  
 }

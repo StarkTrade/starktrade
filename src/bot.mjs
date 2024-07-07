@@ -182,7 +182,7 @@ bot.callbackQuery("buy_max", async (ctx) => {
 
 bot.callbackQuery("buy_x", async (ctx) => {
   
-    ctx.session.tradeInitiated = true
+    ctx.session.buyInit = true
     await ctx.reply("*Please Input your ETH amount:*", {parse_mode: 'Markdown'});
 })
 
@@ -199,11 +199,11 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 
     const input = ctx.match[0]
     
-    if (!ctx.session.tradeInitiated) {
+    if (!ctx.session.buyInit) {
         await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
     } else {
 
-        ctx.session.tradeInitiated = false;
+        ctx.session.buyInit = false;
 
         if (balance < input) {
             await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });

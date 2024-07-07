@@ -10,7 +10,7 @@ export const StarkTradeStorage = () => {
         tokenOutAddress: null,
         buy_with_min_eth: 0.005,
         buy_with_max_eth: 1,
-        tradeInitiated: false
+        buyInit: false
     }
 }
 

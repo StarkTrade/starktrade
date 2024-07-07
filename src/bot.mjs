@@ -137,13 +137,13 @@ bot.callbackQuery("buy_min", async (ctx) => {
         balance,  
         slippage, 
         buy_with_min_eth,
-        tokenOutAddress
+        tokenAddress
     } = ctx.session 
 
     if (balance < buy_with_min_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenOutAddress, buy_with_min_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, buy_with_min_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -162,13 +162,13 @@ bot.callbackQuery("buy_max", async (ctx) => {
         balance,  
         slippage, 
         buy_with_max_eth,
-        tokenOutAddress
+        tokenAddress
     } = ctx.session 
 
     if (balance < buy_with_max_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenOutAddress, buy_with_max_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, buy_with_max_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -194,7 +194,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         accountAddres, 
         balance,  
         slippage, 
-        tokenOutAddress
+        tokenAddress
     } = ctx.session 
 
     const input = ctx.match[0]
@@ -208,7 +208,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         if (balance < input) {
             await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
         } else {
-            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenOutAddress, input, slippage)
+            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, input, slippage)
     
             if (!buy) {
                 await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -247,9 +247,9 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
     } else {
         // console.log("tokenData", tokenData)
         if (tokenData ) {
-            ctx.session.tokenOutAddress = tokenData?.tokenAddress
+            ctx.session.tokenAddress = tokenData?.tokenAddress
     
-            console.log("Our stored address :", ctx.session.tokenOutAddress)
+            console.log("Our stored address :", ctx.session.tokenAddress)
 
             console.log(tokenData, "tokenData")
             const  {

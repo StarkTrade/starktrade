@@ -7,7 +7,7 @@ export const StarkTradeStorage = () => {
         balance: 0,
         walletRequested: false,
         slippage: 0.01,
-        tokenOutAddress: null,
+        tokenAddress: null,
         buy_with_min_eth: 0.005,
         buy_with_max_eth: 1,
         buyInit: false

@@ -78,7 +78,7 @@ async function getAllTokenBalances(userAddress) {
     return tokenLists
 }
 
-getAllTokenBalances("0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD")
+// getAllTokenBalances("0x024De3eddBb15440e52b7f1D78AE69C3f429B7F9f71d0671A12De613f59398DD")
 
 
 export {

@@ -186,5 +186,5 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
 // console.log(getAccountFromPrivateKey(String("0x0123")), "address")
 
-console.log(createArgentAccount());
+// console.log(createArgentAccount());
 

@@ -6,7 +6,7 @@ dotenv.config();
 
 const fibrous = new FibrousRouter();
 
-export async function tradeWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenOutAddress) {
+export async function tradeWithFibrous (accountAddress, privateKey, slippage, inputAmount, tokenInAddress, tokenOutAddress) {
   try {
     
     const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET }); 

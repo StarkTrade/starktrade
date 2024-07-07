@@ -245,8 +245,11 @@ bot.callbackQuery("buy_x", async (ctx) => {
 ======================================================
 */
 bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
-    const input = ctx.match[0]
+    let input = ctx.match[0]
     const { walletRequested, accountAddress, sellInit } = ctx.session
+
+    input = input.length === 65 ? padWithZero(input) : input;
+
     const tokenData = await getAllTokenDetails(input);
 
     if (walletRequested) {

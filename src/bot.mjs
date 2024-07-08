@@ -394,11 +394,11 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}*
             \n[Website](${websites})   \n[View Chart](${viewChart})
-            \n*Wallet Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*.`);
+            \n*Wallet Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*.`, { parse_mode: 'Markdown',  disable_web_page_preview: true });
 
             if(sellInit) {
                 ctx.session.sellInit = false
-                await ctx.reply("Select any of the sell options below:", { reply_markup: sellOptions });
+                await ctx.reply("Select any of the sell options below:", { reply_markup: sellOptions, parse_mode: 'Markdown',  disable_web_page_preview: true});
             } else {
                 await ctx.reply("Select any of the buy options below:", { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
             }

@@ -7,11 +7,11 @@ import { tradeWithAvnu } from "../services/avnu/index.mjs";
 
 export const buyOptions = (ctx) => {
 
-  const { buy_with_min_eth, buy_with_max_eth } = ctx.session
+  const { min_eth, max_eth } = ctx.session
   
   return new InlineKeyboard()
-    .text(`Buy with ${buy_with_min_eth} ETH`, "buy_min")
-    .text(`Buy with ${buy_with_max_eth} ETH`, "buy_max").row()
+    .text(`Buy with ${min_eth} ETH`, "buy_min")
+    .text(`Buy with ${max_eth} ETH`, "buy_max").row()
     .text(`Buy with X ETH`, "buy_x");
 }
 

@@ -8,6 +8,11 @@ const padWithZero = (address) => {
     return `${address.slice(0,2)}0${address.slice(2)}`
 }
 
+const computeAmount = (amount) => {
+    const amountInWei = amount * Math.pow(10, 18)
+    return `0x${Number(amountInWei).toString(16)}`
+}
+
 async function getAllTokenDetails (tokenAddress) {
     try {
     
@@ -42,7 +47,7 @@ async function getAllTokenDetails (tokenAddress) {
     }
 }
 
-async function getUserTokenBalance(userAddress, tokenAddress) {
+async function getUserTokenBalance(userAddress, tokenAddress, float=2) {
     const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
     const { abi } = await provider.getClassAt(tokenAddress)
     const tokenContract = new Contract(abi, tokenAddress, provider)
@@ -50,7 +55,7 @@ async function getUserTokenBalance(userAddress, tokenAddress) {
     const balance = parseInt(await tokenContract.balanceOf(userAddress))
     const decimals = parseInt(await tokenContract.decimals())
 
-    return (balance / 10**decimals).toFixed(2)
+    return (balance / 10**decimals).toFixed(float)
 }
 
 async function getAllTokenBalances(userAddress) {
@@ -73,6 +78,7 @@ async function getAllTokenBalances(userAddress) {
 
 export {
     padWithZero,
+    computeAmount,
     getAllTokenDetails,
     getUserTokenBalance,
     getAllTokenBalances

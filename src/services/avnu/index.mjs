@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Account, RpcProvider, Provider, constants } from "starknet";
 import dotenv from 'dotenv';
+import { computeAmount } from "../../trade/helper.mjs";
 dotenv.config();
 
 
@@ -56,8 +57,8 @@ async function buildCallData (quoteID, takerAddress, slippage) {
 
 export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, slippage ) {
     try {
-        
-        const amount = Number(sellAmount.toString(16));
+        const amount = computeAmount(sellAmount);
+
         const {data} = await getQuoteData(sellTokenAddress, buyTokenAddress, amount, takerAddress);
         const quoteId = data[0].quoteId;
 
@@ -77,7 +78,7 @@ export async function tradeWithAvnu (privateKey, accountAddress, sellTokenAddres
       
         const account = new Account(provider, accountAddress, privateKey, "1");
 
-        const {data} = await callData(sellTokenAddress, buyTokenAddress, sellAmount, accountAddress, slippage)
+        const { data } = await callData(sellTokenAddress, buyTokenAddress, sellAmount, accountAddress, slippage)
 
         console.log("Avnu data", data)
 
@@ -86,6 +87,6 @@ export async function tradeWithAvnu (privateKey, accountAddress, sellTokenAddres
         console.log("res", res)
         return res;
     } catch (error) {
-        console.log("error here",error)
+        console.error("error here",error)
     }
 }

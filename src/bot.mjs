@@ -8,6 +8,7 @@ import { getAccountFromPrivateKey, createArgentAccount, deployArgentAccount } fr
 import { executeBuy } from "./trade/buy.mjs";
 import { ETH } from "./utils/constants.mjs";
 import { executeSell, sellX } from "./trade/sell.mjs";
+import { scheduleJob } from "node-schedule";
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -111,7 +112,7 @@ bot.callbackQuery("create_wallet", async (ctx) => {
 
     await ctx.reply(`Your Starknet Wallet Address is [${padWithZero(ctx.session.accountAddress)}](https://starkscan.co/contract/${ctx.session.accountAddress}).
         \nPrivate Key: ${decrypt(ctx.session.secretKey, token)}
-        \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed.
+        \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
         \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
             reply_markup: homeOptions,
             parse_mode: 'Markdown',
@@ -135,7 +136,7 @@ bot.callbackQuery("portfolio", async (ctx) => {
         `*All Token Balances:* \n${tokenList}`,
         {
             parse_mode: 'Markdown',
-            disable_web_page_preview: true
+            disable_web_page_preview: true,
         }
     )
 })
@@ -152,7 +153,7 @@ bot.callbackQuery("view_wallet", async (ctx) => {
 
     const messageTimer = new Date(Date.now() + 60000);
 
-    schedule.scheduleJob(messageTimer, async () => {
+    scheduleJob(messageTimer, async () => {
         try {
             await ctx.api.deleteMessage(ctx.chat.id, message.message_id);
             console.log('Message deleted successfully.');
@@ -187,9 +188,15 @@ bot.callbackQuery("sell_25", async (ctx) => {
         const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
 
         if (!sell) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${sell.transaction_hash}](https://starkscan.co/tx/${sell.transaction_hash})`,
+                {
+                    reply_markup: sellOptions,
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     } catch (error) {
         console.error(error);
@@ -210,9 +217,15 @@ bot.callbackQuery("sell_50", async (ctx) => {
         const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
 
         if (!sell) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${sell.transaction_hash}](https://starkscan.co/tx/${sell.transaction_hash})`,
+                {
+                    reply_markup: sellOptions,
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     } catch (error) {
         console.error(error);
@@ -233,9 +246,15 @@ bot.callbackQuery("sell_75", async (ctx) => {
         const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
 
         if (!sell) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${sell.transaction_hash}](https://starkscan.co/tx/${sell.transaction_hash})`,
+                {
+                    reply_markup: sellOptions,
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     } catch (error) {
         console.error(error);
@@ -256,9 +275,15 @@ bot.callbackQuery("sell_100", async (ctx) => {
         const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
 
         if (!sell) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${sell.transaction_hash}](https://starkscan.co/tx/${sell.transaction_hash})`,
+                {
+                    reply_markup: sellOptions,
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     } catch (error) {
         console.error(error);
@@ -294,49 +319,63 @@ bot.callbackQuery("buy", async (ctx) => {
 
 bot.callbackQuery("buy_min", async (ctx) => {
     const { 
-        secretKey, 
-        accountAddress, 
-        balance,  
-        slippage, 
-        buy_with_min_eth,
+        secretKey,
+        accountAddress,
+        slippage,
+        min_eth,
         tokenAddress
-    } = ctx.session 
+    } = ctx.session
 
-    if (balance < buy_with_min_eth) {
-        await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
+    const balance = await getUserTokenBalance(accountAddress, ETH, 5)
+
+    if (balance < min_eth) {
+        await ctx.reply(`Insufficient ETH balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
     } else {
-        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, buy_with_min_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, min_eth, slippage)
 
         if (!buy) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
-            
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
+
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${buy.transaction_hash}](https://starkscan.co/tx/${buy.transaction_hash})`,
+                {
+                    reply_markup: buyOptions(ctx),
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     }
 })
 
 
 bot.callbackQuery("buy_max", async (ctx) => {
-    const { 
-        secretKey, 
-        accountAddress, 
-        balance,  
-        slippage, 
-        buy_with_max_eth,
+    const {
+        secretKey,
+        accountAddress,
+        slippage,
+        max_eth,
         tokenAddress
-    } = ctx.session 
+    } = ctx.session
 
-    if (balance < buy_with_max_eth) {
+    const balance = await getUserTokenBalance(accountAddress, ETH)
+
+    if (balance < max_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
     } else {
-        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, buy_with_max_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, max_eth, slippage)
 
         if (!buy) {
-            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
-            
+            await ctx.reply(`Service request too High at the moment. Please try again later.`);
+
         } else {
-            await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+            await ctx.reply(`*Transaction Successful.*
+                \nCheck out the transaction receipt to check the progress of your transaction.\n[${buy.transaction_hash}](https://starkscan.co/tx/${buy.transaction_hash})`,
+                {
+                    reply_markup: buyOptions(ctx),
+                    parse_mode: 'Markdown',
+                    disable_web_page_preview: true
+                });
         }
     }
 })
@@ -370,7 +409,7 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
         await ctx.reply(`Your Starknet Wallet Address is [${padWithZero(ctx.session.accountAddress)}](https://starkscan.co/contract/${ctx.session.accountAddress}).
             \n_Ensure you keep your private key safe, as we cannot protect you if it is exposed_.
-            \nNow, deposit funds and enjoy Starktrade seamless trading experience.`, {
+            \nNow, deposit ETH and enjoy Starktrade seamless trading experience.`, {
                 reply_markup: homeOptions,
                 parse_mode: 'Markdown',
                 disable_web_page_preview: true
@@ -391,17 +430,26 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
                 viewChart
             } = tokenData;
 
+            const option = sellInit ? "Select any of the sell options below:" : "Select any of the buy options below:"
+
             await ctx.reply(`${tokenSymbol} | ${tokenName} | [${tokenAddress}](https://starkscan.co/token/${tokenAddress}) \nm5: ${m5}% | h1: ${h1}% | h6: ${h6}% | h24: ${h24}%
             \n*Price: $${tokenPrice}*  \n*Market Cap / fdv: $${fdv}*   \n*Liquidity: $${liquidity}*
             \n[Website](${websites})   \n[View Chart](${viewChart})
-            \n*Wallet Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*.`, { parse_mode: 'Markdown',  disable_web_page_preview: true });
+            \n*${tokenSymbol} Balance: ${await getUserTokenBalance(accountAddress, tokenAddress)}*.\n*ETH Balance: ${await getUserTokenBalance(accountAddress, ETH, 6)}*.
 
-            if(sellInit) {
-                ctx.session.sellInit = false
-                await ctx.reply("Select any of the sell options below:", { reply_markup: sellOptions, parse_mode: 'Markdown',  disable_web_page_preview: true});
-            } else {
-                await ctx.reply("Select any of the buy options below:", { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
-            }
+            \n${option}`,
+            {
+                reply_markup: (sellInit ? sellOptions : buyOptions(ctx)),
+                parse_mode: 'Markdown',
+                disable_web_page_preview: true
+            });
+
+            // if(sellInit) {
+            //     ctx.session.sellInit = false
+            //     await ctx.reply("Select any of the sell options below:", { reply_markup: sellOptions, parse_mode: 'Markdown',  disable_web_page_preview: true});
+            // } else {
+            //     await ctx.reply("Select any of the buy options below:", { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
+            // }
         }else {
             await ctx.reply(`Token not found. Make sure address *${ctx.message.text}* is a valid starknet token address.
                 \nIf you are trying to enter a buy or sell amount, ensure you click and reply to the message`,
@@ -414,15 +462,14 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
 bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 
-    const { 
-        secretKey, 
-        accountAddress, 
-        balance,  
-        slippage, 
+    const {
+        secretKey,
+        accountAddress,
+        slippage,
         tokenAddress,
         buyInit,
         sellXInit,
-    } = ctx.session 
+    } = ctx.session
 
     const input = ctx.match[0]
     
@@ -440,9 +487,15 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
                 const sell = await sellX(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, input);
 
                 if (!sell) {
-                    await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+                    await ctx.reply(`Service request too High at the moment. Please try again later.`);
                 } else {
-                    await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+                    await ctx.reply(`*Transaction Successful.*
+                        \nCheck out the transaction receipt to check the progress of your transaction.\n[${sell.transaction_hash}](https://starkscan.co/tx/${sell.transaction_hash})`,
+                        {
+                            reply_markup: sellOptions,
+                            parse_mode: 'Markdown',
+                            disable_web_page_preview: true
+                        });
                 }
             }
         } catch (error) {
@@ -452,6 +505,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
     } else if(buyInit) {
 
         ctx.session.buyInit = false;
+        const balance = await getUserTokenBalance(accountAddress, ETH, 5)
 
         if (balance < input) {
             await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
@@ -459,10 +513,16 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
             let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, input, slippage)
     
             if (!buy) {
-                await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
+                await ctx.reply(`Service request too High at the moment. Please try again later.`);
                 
             } else {
-                await ctx.reply(`Transaction Successful.`, { reply_markup: buyOptions(ctx) });
+                await ctx.reply(`*Transaction Successful.*
+                    \nCheck out the transaction receipt to check the progress of your transaction.\n[${buy.transaction_hash}](https://starkscan.co/tx/${buy.transaction_hash})`,
+                    {
+                        reply_markup: buyOptions(ctx),
+                        parse_mode: 'Markdown',
+                        disable_web_page_preview: true
+                    });
             }
         }
 
@@ -470,8 +530,3 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
     }
 })
-
-
-// console.log(getAccountFromPrivateKey(String("0x0123")), "address")
-
-console.log(createArgentAccount());

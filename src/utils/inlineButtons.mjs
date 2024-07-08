@@ -31,10 +31,14 @@ const sellOptions = new InlineKeyboard()
   .text("Sell 100%", "sell_100").row()
   .text("Sell X", "sell_x");
 
+// const portfolioOption = new InlineKeyboard()
+//   .text("Refresh", "portfolio")
+
 export {
     homeOptions,
     walletOptionBefore,
     walletOptions,
     settingOptions,
     sellOptions,
+    // portfolioOption
 };

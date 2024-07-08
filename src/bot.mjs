@@ -184,7 +184,8 @@ bot.callbackQuery("sell_25", async (ctx) => {
     const sellPercent = 25;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+        // console.log("secretKey", secretKey, "address", accountAddress, "slippage", slippage, "token", tokenAddress)
+        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
     } catch (error) {
         console.error(error);
     }
@@ -201,7 +202,7 @@ bot.callbackQuery("sell_50", async (ctx) => {
     const sellPercent = 50;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
     } catch (error) {
         console.error(error);
     }
@@ -218,7 +219,7 @@ bot.callbackQuery("sell_75", async (ctx) => {
     const sellPercent = 75;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
     } catch (error) {
         console.error(error);
     }
@@ -235,7 +236,7 @@ bot.callbackQuery("sell_100", async (ctx) => {
     const sellPercent = 100;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
     } catch (error) {
         console.error(error);
     }
@@ -250,7 +251,7 @@ bot.callbackQuery("sell_x", async (ctx) => {
     } = ctx.session 
     
     try {
-        await sellX(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellAmount);
+        await sellX(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellAmount);
     } catch (error) {
         console.error(error)
     }

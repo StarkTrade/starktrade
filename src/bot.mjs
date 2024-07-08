@@ -184,8 +184,13 @@ bot.callbackQuery("sell_25", async (ctx) => {
     const sellPercent = 25;
 
     try {
-        // console.log("secretKey", secretKey, "address", accountAddress, "slippage", slippage, "token", tokenAddress)
-        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+        const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+
+        if (!sell) {
+            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+        } else {
+            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+        }
     } catch (error) {
         console.error(error);
     }
@@ -202,7 +207,13 @@ bot.callbackQuery("sell_50", async (ctx) => {
     const sellPercent = 50;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+        const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+
+        if (!sell) {
+            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+        } else {
+            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+        }
     } catch (error) {
         console.error(error);
     }
@@ -219,7 +230,13 @@ bot.callbackQuery("sell_75", async (ctx) => {
     const sellPercent = 75;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+        const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+
+        if (!sell) {
+            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+        } else {
+            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+        }
     } catch (error) {
         console.error(error);
     }
@@ -236,7 +253,13 @@ bot.callbackQuery("sell_100", async (ctx) => {
     const sellPercent = 100;
 
     try {
-        await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+        const sell = await executeSell(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellPercent);
+
+        if (!sell) {
+            await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+        } else {
+            await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+        }
     } catch (error) {
         console.error(error);
     }
@@ -408,9 +431,10 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 
         try {
             const userBalance = await getUserTokenBalance(accountAddress, tokenAddress);
-            console.log("user balance", userBalance)
+            console.log("user balance", Number(userBalance))
+            console.log("input amount", Number(input))
     
-            if(input > userBalance) {
+            if(Number(input) > Number(userBalance)) {
                 await ctx.reply(`Insufficient balance. Your balance is ${userBalance}.`, { reply_markup: sellOptions });
             } else {
                 const sell = await sellX(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, input);

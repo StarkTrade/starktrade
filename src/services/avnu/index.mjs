@@ -57,7 +57,7 @@ async function buildCallData (quoteID, takerAddress, slippage) {
 export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, slippage ) {
     try {
         
-        const amount = Nuber(sellAmount.toString(16));
+        const amount = Number(sellAmount.toString(16));
         const {data} = await getQuoteData(sellTokenAddress, buyTokenAddress, amount, takerAddress);
         const quoteId = data[0].quoteId;
 

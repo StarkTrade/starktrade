@@ -173,23 +173,23 @@ bot.callbackQuery("sell", async (ctx) => {
 });
 
 bot.callbackQuery("sell_25", async (ctx) => {
-
+    await ctx.reply("*Sell 25%:*", {parse_mode: 'Markdown'});
 });
 
 bot.callbackQuery("sell_50", async (ctx) => {
-
+    await ctx.reply("*Sell 50%:*", {parse_mode: 'Markdown'});
 });
 
 bot.callbackQuery("sell_75", async (ctx) => {
-
+    await ctx.reply("*Sell 75%:*", {parse_mode: 'Markdown'});
 });
 
 bot.callbackQuery("sell_100", async (ctx) => {
-
+    await ctx.reply("*Sell 100%:*", {parse_mode: 'Markdown'});
 });
 
 bot.callbackQuery("sell_x", async (ctx) => {
-
+    await ctx.reply("*Sell X amount%:*", {parse_mode: 'Markdown'});
 });
 
 /*====================================================
@@ -337,7 +337,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
 
     const { 
         secretKey, 
-        accountAddres, 
+        accountAddress, 
         balance,  
         slippage, 
         tokenAddress
@@ -354,7 +354,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         if (balance < input) {
             await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
         } else {
-            let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, input, slippage)
+            let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, input, slippage)
     
             if (!buy) {
                 await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });

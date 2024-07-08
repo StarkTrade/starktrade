@@ -11,7 +11,9 @@ export const StarkTradeStorage = () => {
         buy_with_min_eth: 0.005,
         buy_with_max_eth: 1,
         buyInit: false,
-        sellInit: false
+        sellInit: false,
+        sellXInit: false,
+        sellXAmount: 0
     }
 }
 

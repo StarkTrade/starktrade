@@ -8,7 +8,7 @@ export async function executeSell(accountAddress, privateKey, slippage, tokenInA
     }
 }
 
-export async function sell_x(accountAddress, privateKey, slippage, sellAmount, tokenInAddress, tokenOutAddress) {
+export async function sellX(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress, sellAmount) {
     try {
   
     } catch (error) {

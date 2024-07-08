@@ -7,6 +7,7 @@ import { StarkTradeStorage, sessionkey, sessionChecker, encrypt, decrypt } from 
 import { getAccountFromPrivateKey, createArgentAccount, deployArgentAccount } from "./utils/wallet.mjs";
 import { executeBuy } from "./trade/buy.mjs";
 import { ETH } from "./utils/constants.mjs";
+import { executeSell, sellX } from "./trade/sell.mjs";
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -173,23 +174,86 @@ bot.callbackQuery("sell", async (ctx) => {
 });
 
 bot.callbackQuery("sell_25", async (ctx) => {
-    await ctx.reply("*Sell 25%:*", {parse_mode: 'Markdown'});
+    const { 
+        secretKey, 
+        accountAddress, 
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+
+    const sellPercent = 25;
+
+    try {
+        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 bot.callbackQuery("sell_50", async (ctx) => {
-    await ctx.reply("*Sell 50%:*", {parse_mode: 'Markdown'});
+    const { 
+        secretKey, 
+        accountAddress, 
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+
+    const sellPercent = 50;
+
+    try {
+        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 bot.callbackQuery("sell_75", async (ctx) => {
-    await ctx.reply("*Sell 75%:*", {parse_mode: 'Markdown'});
+    const { 
+        secretKey, 
+        accountAddress, 
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+
+    const sellPercent = 75;
+
+    try {
+        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 bot.callbackQuery("sell_100", async (ctx) => {
-    await ctx.reply("*Sell 100%:*", {parse_mode: 'Markdown'});
+    const { 
+        secretKey, 
+        accountAddress, 
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+
+    const sellPercent = 100;
+
+    try {
+        await executeSell(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellPercent);
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 bot.callbackQuery("sell_x", async (ctx) => {
-    await ctx.reply("*Sell X amount%:*", {parse_mode: 'Markdown'});
+    const { 
+        secretKey, 
+        accountAddress, 
+        slippage, 
+        tokenAddress
+    } = ctx.session 
+    
+    try {
+        await sellX(accountAddress, decrypt(secretKey), slippage, ETH, tokenAddress, sellAmount);
+    } catch (error) {
+        console.error(error)
+    }
 });
 
 /*====================================================
@@ -319,12 +383,12 @@ bot.hears(/^(0x){1}[0-9a-fA-F]{40,70}$/i, async (ctx) => {
 
             if(sellInit) {
                 ctx.session.sellInit = false
-                await ctx.reply("Select any of the buy options below:", { reply_markup: sellOptions });
+                await ctx.reply("Select any of the sell options below:", { reply_markup: sellOptions });
             } else {
                 await ctx.reply("Select any of the buy options below:", { reply_markup: buyOptions(ctx) , parse_mode: 'Markdown',  disable_web_page_preview: true });
             }
         }else {
-            await ctx.reply(`Token not found. Make sure address *${ctx.message.text}* is a valid starknet token address correct.
+            await ctx.reply(`Token not found. Make sure address *${ctx.message.text}* is a valid starknet token address.
                 \nIf you are trying to enter a buy or sell amount, ensure you click and reply to the message`,
                 { reply_markup: homeOptions, parse_mode: 'Markdown' }
             );

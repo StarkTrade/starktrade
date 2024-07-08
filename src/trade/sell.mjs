@@ -1,8 +1,22 @@
-import {InlineKeyboard} from "grammy";
+import { tradeWithAvnu } from "../services/avnu/index.mjs";
+import { getUserTokenBalance } from "../trade/helper.mjs";
 
-export const sellOptions = new InlineKeyboard()
-  .text("Sell 25%", "sell_25")
-  .text("Sell 50%", "sell_50").row()
-  .text("Sell 75%", "sell_75")
-  .text("Sell 100%", "sell_100").row()
-  .text("Sell X", "sell_x");
+export async function executeSell(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress, sellPercent) {
+    try {
+        const userBalance = await getUserTokenBalance(accountAddress, tokenOutAddress);
+        console.log("user balance",userBalance)
+
+        const sellAmount = (sellPercent/100) * userBalance;
+        console.log("Sell Amount", sellAmount);
+
+        let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, sellAmount, slippage);
+        console.log(data);
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export async function sellX(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress, sellAmount) {
+    let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, sellAmount, slippage);
+    console.log(data);
+}

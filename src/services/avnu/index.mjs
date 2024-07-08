@@ -57,7 +57,7 @@ async function buildCallData (quoteID, takerAddress, slippage) {
 export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, takerAddress, slippage ) {
     try {
         
-        const amount = Nuber(sellAmount.toString(16));
+        const amount = Number(sellAmount.toString(16));
         const {data} = await getQuoteData(sellTokenAddress, buyTokenAddress, amount, takerAddress);
         const quoteId = data[0].quoteId;
 
@@ -72,7 +72,6 @@ export async function callData (sellTokenAddress, buyTokenAddress, sellAmount, t
 
 
 export async function tradeWithAvnu (privateKey, accountAddress, sellTokenAddress, buyTokenAddress, sellAmount, slippage) {
-
     try {
         const provider = new RpcProvider({ nodeUrl: process.env.RPC_URL_MAINNET });
       

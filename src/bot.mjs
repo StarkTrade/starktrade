@@ -291,7 +291,7 @@ bot.callbackQuery("buy_min", async (ctx) => {
     if (balance < buy_with_min_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, buy_with_min_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, buy_with_min_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -316,7 +316,7 @@ bot.callbackQuery("buy_max", async (ctx) => {
     if (balance < buy_with_max_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, buy_with_max_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, buy_with_max_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -419,7 +419,7 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         if (balance < input) {
             await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
         } else {
-            let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, input, slippage)
+            let buy = await executeBuy(decrypt(secretKey, token), accountAddress, ETH, tokenAddress, input, slippage)
     
             if (!buy) {
                 await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });

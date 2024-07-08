@@ -243,18 +243,9 @@ bot.callbackQuery("sell_100", async (ctx) => {
 });
 
 bot.callbackQuery("sell_x", async (ctx) => {
-    const { 
-        secretKey, 
-        accountAddress, 
-        slippage, 
-        tokenAddress
-    } = ctx.session 
-    
-    try {
-        await sellX(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, sellAmount);
-    } catch (error) {
-        console.error(error)
-    }
+    ctx.session.sellXInit = true
+    await ctx.reply(`Sell Token Amount:
+    \nInput amount of token to sell`);
 });
 
 /*====================================================
@@ -405,14 +396,36 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
         accountAddress, 
         balance,  
         slippage, 
-        tokenAddress
+        tokenAddress,
+        buyInit,
+        sellXInit,
     } = ctx.session 
 
     const input = ctx.match[0]
     
-    if (!ctx.session.buyInit) {
-        await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
-    } else {
+    if (sellXInit) {
+        ctx.session.sellXInit = false;
+
+        try {
+            const userBalance = await getUserTokenBalance(accountAddress, tokenAddress);
+            console.log("user balance", userBalance)
+    
+            if(input > userBalance) {
+                await ctx.reply(`Insufficient balance. Your balance is ${userBalance}.`, { reply_markup: sellOptions });
+            } else {
+                const sell = await sellX(accountAddress, decrypt(secretKey, token), slippage, tokenAddress, ETH, input);
+
+                if (!sell) {
+                    await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: sellOptions });
+                } else {
+                    await ctx.reply(`Transaction Successful.`, { reply_markup: sellOptions });
+                }
+            }
+        } catch (error) {
+            console.error(error)
+        }
+
+    } else if(buyInit) {
 
         ctx.session.buyInit = false;
 
@@ -429,9 +442,10 @@ bot.hears( /^\d+(\.\d+)?$/, async (ctx) => {
             }
         }
 
+    } else {
+        await ctx.reply(`Invalid Input. Please try again.`, { reply_markup: homeOptions });
     }
 })
-
 
 
 // console.log(getAccountFromPrivateKey(String("0x0123")), "address")

@@ -17,17 +17,6 @@ export async function executeSell(accountAddress, privateKey, slippage, tokenInA
 }
 
 export async function sellX(accountAddress, privateKey, slippage, tokenInAddress, tokenOutAddress, sellAmount) {
-    try {
-        const userBalance = await getUserTokenBalance(accountAddress, tokenOutAddress);
-        console.log("user balance",userBalance)
-
-        if(sellAmount > userBalance) {
-            console.log("Insufficient balance")
-        } else {
-            let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, sellAmount, slippage);
-            console.log(data);
-        }
-    } catch (error) {
-        console.error(error)
-    }
+    let data = await tradeWithAvnu(privateKey, accountAddress, tokenInAddress, tokenOutAddress, sellAmount, slippage);
+    console.log(data);
 }

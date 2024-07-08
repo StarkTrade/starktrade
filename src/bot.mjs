@@ -56,9 +56,6 @@ bot.api.setMyCommands(botCommands)
 ======================================================
 */
 
-
-
-
 bot.command("start", async (ctx) => {
     if(sessionChecker(ctx)) {
         await ctx.reply(`Welcome to StarkTrade. 
@@ -89,22 +86,9 @@ bot.command("home", async (ctx) => {
 });
 
 /*====================================================
-================ Bot Callback Handler ================
+================ Wallet Callback Handler ================
 ======================================================
 */
-
-bot.callbackQuery("buy", async (ctx) => {
-    await ctx.reply(`*Buy Token:*
-    \nInput contract address of token to buy`
-    , { parse_mode: 'Markdown' }
-    );
-});
-
-bot.callbackQuery("sell", async (ctx) => {
-    ctx.session.sellInit = true
-    await ctx.reply(`Sell Token:
-    \nInput contract address of token to sell`);
-});
 
 bot.callbackQuery("wallet", async (ctx) => {
     await ctx.reply(`
@@ -117,10 +101,6 @@ bot.callbackQuery("wallet", async (ctx) => {
             parse_mode: 'Markdown'
         }
     );
-});
-
-bot.callbackQuery("settings", async (ctx) => {
-    await ctx.reply("Settings", { reply_markup: settingOptions });
 });
 
 bot.callbackQuery("create_wallet", async (ctx) => {
@@ -181,10 +161,62 @@ bot.callbackQuery("view_wallet", async (ctx) => {
     })
 })
 
+/*====================================================
+================ Sell Callback Handler ================
+======================================================
+*/
+
+bot.callbackQuery("sell", async (ctx) => {
+    ctx.session.sellInit = true
+    await ctx.reply(`Sell Token:
+    \nInput contract address of token to sell`);
+});
+
+bot.callbackQuery("sell_25", async (ctx) => {
+
+});
+
+bot.callbackQuery("sell_50", async (ctx) => {
+
+});
+
+bot.callbackQuery("sell_75", async (ctx) => {
+
+});
+
+bot.callbackQuery("sell_100", async (ctx) => {
+
+});
+
+bot.callbackQuery("sell_x", async (ctx) => {
+
+});
+
+/*====================================================
+================ Setting Callback Handler ================
+======================================================
+*/
+
+bot.callbackQuery("settings", async (ctx) => {
+    await ctx.reply("Settings", { reply_markup: settingOptions });
+});
+
+/*====================================================
+================ Buy Callback Handler ================
+======================================================
+*/
+
+bot.callbackQuery("buy", async (ctx) => {
+    await ctx.reply(`*Buy Token:*
+    \nInput contract address of token to buy`
+    , { parse_mode: 'Markdown' }
+    );
+});
+
 bot.callbackQuery("buy_min", async (ctx) => {
     const { 
         secretKey, 
-        accountAddres, 
+        accountAddress, 
         balance,  
         slippage, 
         buy_with_min_eth,
@@ -194,7 +226,7 @@ bot.callbackQuery("buy_min", async (ctx) => {
     if (balance < buy_with_min_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: homeOptions });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, buy_with_min_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, buy_with_min_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
@@ -209,7 +241,7 @@ bot.callbackQuery("buy_min", async (ctx) => {
 bot.callbackQuery("buy_max", async (ctx) => {
     const { 
         secretKey, 
-        accountAddres, 
+        accountAddress, 
         balance,  
         slippage, 
         buy_with_max_eth,
@@ -219,7 +251,7 @@ bot.callbackQuery("buy_max", async (ctx) => {
     if (balance < buy_with_max_eth) {
         await ctx.reply(`Insufficient balance. Your balance is ${balance} ETH. Transfer ETH into your wallet to continue`, { reply_markup: buyOptions(ctx) });
     } else {
-        let buy = await executeBuy(decrypt(secretKey), accountAddres, ETH, tokenAddress, buy_with_max_eth, slippage)
+        let buy = await executeBuy(decrypt(secretKey), accountAddress, ETH, tokenAddress, buy_with_max_eth, slippage)
 
         if (!buy) {
             await ctx.reply(`Service request too High at the moment. Please try again later.`, { reply_markup: buyOptions(ctx) });
